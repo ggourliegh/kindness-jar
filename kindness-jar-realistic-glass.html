@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,7 +9,8 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@700&display=swap"
+    rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -71,7 +73,7 @@
       font-weight: 600;
       cursor: pointer;
       font-size: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
@@ -80,7 +82,7 @@
 
     .header-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       background: white;
     }
 
@@ -94,7 +96,7 @@
       backdrop-filter: blur(10px);
       padding: 50px 30px 50px;
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
       position: relative;
       margin-top: 20px;
     }
@@ -117,18 +119,17 @@
       left: -10px;
       right: -10px;
       height: 18px;
-      background: linear-gradient(180deg, 
-        #A68968 0%, 
-        #9D7E5E 10%,
-        #8B6F4E 50%,
-        #7D6344 90%,
-        #6B533A 100%
-      );
+      background: linear-gradient(180deg,
+          #A68968 0%,
+          #9D7E5E 10%,
+          #8B6F4E 50%,
+          #7D6344 90%,
+          #6B533A 100%);
       border-radius: 6px;
-      box-shadow: 
-        0 8px 16px rgba(0,0,0,0.3),
-        inset 0 2px 4px rgba(255,255,255,0.2),
-        inset 0 -2px 4px rgba(0,0,0,0.3);
+      box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
     }
 
     /* Wood grain effect */
@@ -139,14 +140,12 @@
       left: -10px;
       right: -10px;
       height: 18px;
-      background-image: 
-        repeating-linear-gradient(
-          90deg,
+      background-image:
+        repeating-linear-gradient(90deg,
           transparent,
           transparent 60px,
-          rgba(0,0,0,0.05) 60px,
-          rgba(0,0,0,0.05) 61px
-        );
+          rgba(0, 0, 0, 0.05) 60px,
+          rgba(0, 0, 0, 0.05) 61px);
       z-index: 1;
       border-radius: 6px;
     }
@@ -170,7 +169,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 25px;
       }
-      
+
       .app-title {
         font-size: 2.5rem;
         letter-spacing: 6px;
@@ -196,7 +195,7 @@
       max-width: 165px;
       aspect-ratio: 2/3;
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
     }
 
     .jar-container.wiggle {
@@ -204,14 +203,39 @@
     }
 
     @keyframes smoothWiggle {
-      0%, 100% { transform: rotate(0deg) translateY(0); }
-      12% { transform: rotate(-10deg) translateY(-15px); }
-      24% { transform: rotate(8deg) translateY(-18px); }
-      36% { transform: rotate(-6deg) translateY(-15px); }
-      48% { transform: rotate(4deg) translateY(-10px); }
-      60% { transform: rotate(-2deg) translateY(-5px); }
-      72% { transform: rotate(1deg) translateY(-3px); }
-      84% { transform: rotate(0deg) translateY(-1px); }
+
+      0%,
+      100% {
+        transform: rotate(0deg) translateY(0);
+      }
+
+      12% {
+        transform: rotate(-10deg) translateY(-15px);
+      }
+
+      24% {
+        transform: rotate(8deg) translateY(-18px);
+      }
+
+      36% {
+        transform: rotate(-6deg) translateY(-15px);
+      }
+
+      48% {
+        transform: rotate(4deg) translateY(-10px);
+      }
+
+      60% {
+        transform: rotate(-2deg) translateY(-5px);
+      }
+
+      72% {
+        transform: rotate(1deg) translateY(-3px);
+      }
+
+      84% {
+        transform: rotate(0deg) translateY(-1px);
+      }
     }
 
     .jar {
@@ -228,22 +252,21 @@
       transform: translateX(-50%);
       width: 68%;
       height: 13%;
-      background: 
-        linear-gradient(180deg, 
+      background:
+        linear-gradient(180deg,
           #D4BFA8 0%,
           #C9B197 15%,
           #B39F86 30%,
           #A08D74 50%,
           #8B7A61 70%,
           #7D6B53 85%,
-          #6F5E45 100%
-        );
+          #6F5E45 100%);
       border-radius: 10px 10px 3px 3px;
       z-index: 5;
-      box-shadow: 
-        0 4px 8px rgba(0,0,0,0.4),
-        inset 0 2px 3px rgba(255,255,255,0.4),
-        inset 0 -2px 3px rgba(0,0,0,0.4);
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 2px 3px rgba(255, 255, 255, 0.4),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.4);
     }
 
     /* Lid threading ridges */
@@ -254,15 +277,13 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: repeating-linear-gradient(
-        180deg,
-        transparent 0px,
-        rgba(0,0,0,0.15) 2px,
-        transparent 2px,
-        transparent 4px,
-        rgba(255,255,255,0.1) 4px,
-        transparent 5px
-      );
+      background-image: repeating-linear-gradient(180deg,
+          transparent 0px,
+          rgba(0, 0, 0, 0.15) 2px,
+          transparent 2px,
+          transparent 4px,
+          rgba(255, 255, 255, 0.1) 4px,
+          transparent 5px);
       border-radius: 10px 10px 3px 3px;
     }
 
@@ -275,17 +296,16 @@
       transform: translateX(-50%);
       width: 32%;
       height: 11px;
-      background: 
-        radial-gradient(ellipse at 50% 30%, 
+      background:
+        radial-gradient(ellipse at 50% 30%,
           #E8D4BA 0%,
           #D4BFA8 40%,
           #C0AB94 70%,
-          #A89680 100%
-        );
+          #A89680 100%);
       border-radius: 50%;
-      box-shadow: 
-        0 3px 6px rgba(0,0,0,0.4),
-        inset 0 1px 2px rgba(255,255,255,0.5);
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
     }
 
     /* Super realistic glass jar body with transparency */
@@ -296,19 +316,18 @@
       transform: translateX(-50%);
       width: 84%;
       height: 84%;
-      background: 
-        linear-gradient(135deg, 
-          var(--jar-color-light) 0%, 
-          var(--jar-color-main) 45%, 
-          var(--jar-color-dark) 100%
-        );
+      background:
+        linear-gradient(135deg,
+          var(--jar-color-light) 0%,
+          var(--jar-color-main) 45%,
+          var(--jar-color-dark) 100%);
       border-radius: 14px 14px 22px 22px;
       z-index: 2;
-      box-shadow: 
-        inset -8px -8px 20px rgba(0,0,0,0.2),
-        inset 8px 8px 20px rgba(255,255,255,0.6),
-        0 20px 40px rgba(0,0,0,0.3),
-        0 0 0 1px rgba(255,255,255,0.5);
+      box-shadow:
+        inset -8px -8px 20px rgba(0, 0, 0, 0.2),
+        inset 8px 8px 20px rgba(255, 255, 255, 0.6),
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
       position: relative;
       overflow: hidden;
     }
@@ -321,13 +340,12 @@
       left: 8%;
       width: 42%;
       height: 60%;
-      background: 
-        linear-gradient(145deg, 
-          rgba(255,255,255,0.85) 0%, 
-          rgba(255,255,255,0.5) 35%,
-          rgba(255,255,255,0.2) 60%,
-          transparent 100%
-        );
+      background:
+        linear-gradient(145deg,
+          rgba(255, 255, 255, 0.85) 0%,
+          rgba(255, 255, 255, 0.5) 35%,
+          rgba(255, 255, 255, 0.2) 60%,
+          transparent 100%);
       border-radius: 50%;
       filter: blur(12px);
       z-index: 3;
@@ -341,12 +359,11 @@
       right: 10%;
       width: 28%;
       height: 45%;
-      background: 
-        radial-gradient(ellipse at 50% 50%, 
-          rgba(255,255,255,0.4) 0%, 
-          rgba(255,255,255,0.15) 50%,
-          transparent 100%
-        );
+      background:
+        radial-gradient(ellipse at 50% 50%,
+          rgba(255, 255, 255, 0.4) 0%,
+          rgba(255, 255, 255, 0.15) 50%,
+          transparent 100%);
       border-radius: 50%;
       filter: blur(10px);
       z-index: 3;
@@ -359,11 +376,10 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
-        radial-gradient(ellipse at 50% 50%, 
-          rgba(255,255,255,0.3) 0%, 
-          transparent 70%
-        );
+      background:
+        radial-gradient(ellipse at 50% 50%,
+          rgba(255, 255, 255, 0.3) 0%,
+          transparent 70%);
       z-index: 1;
     }
 
@@ -375,9 +391,9 @@
       right: 0;
       bottom: 0;
       border-radius: 14px 14px 22px 22px;
-      box-shadow: 
-        inset 0 0 0 2px rgba(255,255,255,0.6),
-        inset 3px 3px 8px rgba(255,255,255,0.4);
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.6),
+        inset 3px 3px 8px rgba(255, 255, 255, 0.4);
       z-index: 4;
     }
 
@@ -388,11 +404,10 @@
       left: 15%;
       right: 15%;
       height: 25%;
-      background: 
-        radial-gradient(ellipse at 50% 80%, 
-          rgba(255,255,255,0.3) 0%, 
-          transparent 60%
-        );
+      background:
+        radial-gradient(ellipse at 50% 80%,
+          rgba(255, 255, 255, 0.3) 0%,
+          transparent 60%);
       border-radius: 50%;
       filter: blur(8px);
       z-index: 2;
@@ -406,17 +421,16 @@
       transform: translateX(-50%);
       width: 72%;
       height: 20%;
-      background: 
+      background:
         linear-gradient(180deg,
           #FFFFFF 0%,
           #FEFEFE 50%,
-          #FCFCFC 100%
-        );
+          #FCFCFC 100%);
       border-radius: 6px;
       z-index: 5;
-      box-shadow: 
-        0 3px 8px rgba(0,0,0,0.2),
-        inset 0 1px 2px rgba(255,255,255,0.9);
+      box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -425,7 +439,7 @@
       color: #4A5568;
       font-weight: 600;
       padding: 4px 8px;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     /* Icon inside jar with subtle glow */
@@ -436,13 +450,20 @@
       transform: translate(-50%, -50%);
       font-size: 3.8rem;
       z-index: 3;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
       animation: subtleFloat 3.5s ease-in-out infinite;
     }
 
     @keyframes subtleFloat {
-      0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
-      50% { transform: translate(-50%, -50%) translateY(-7px); }
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) translateY(0px);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) translateY(-7px);
+      }
     }
 
     /* Shadow under jar on shelf */
@@ -453,11 +474,10 @@
       transform: translateX(-50%);
       width: 75%;
       height: 12px;
-      background: radial-gradient(ellipse at 50% 50%, 
-        rgba(0,0,0,0.3) 0%, 
-        rgba(0,0,0,0.15) 50%,
-        transparent 100%
-      );
+      background: radial-gradient(ellipse at 50% 50%,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.15) 50%,
+          transparent 100%);
       border-radius: 50%;
       filter: blur(6px);
       z-index: 1;
@@ -470,7 +490,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
       z-index: 1000;
       display: flex;
@@ -486,13 +506,18 @@
       padding: 40px;
       max-width: 550px;
       width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     @keyframes slideUp {
@@ -500,6 +525,7 @@
         transform: translateY(50px);
         opacity: 0;
       }
+
       to {
         transform: translateY(0);
         opacity: 1;
@@ -518,6 +544,7 @@
         transform: scale(0);
         opacity: 0;
       }
+
       to {
         transform: scale(1);
         opacity: 1;
@@ -578,12 +605,12 @@
       font-size: 1.05rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .note-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     }
 
     .note-button:active {
@@ -640,10 +667,12 @@
         transform: scale(0) rotate(-180deg);
         opacity: 0;
       }
+
       50% {
         transform: scale(1.3) rotate(10deg);
         opacity: 1;
       }
+
       100% {
         transform: scale(0) rotate(180deg);
         opacity: 0;
@@ -668,7 +697,7 @@
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 3px solid rgba(255,255,255,0.3);
+      border: 3px solid rgba(255, 255, 255, 0.3);
       border-top-color: white;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -676,7 +705,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* Donation modal */
@@ -686,7 +717,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(10px);
       z-index: 1000;
       display: flex;
@@ -702,7 +733,7 @@
       padding: 45px 35px;
       max-width: 480px;
       width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -747,7 +778,7 @@
     .donation-amount:hover {
       border-color: #CBD5E0;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .donation-amount.selected {
@@ -791,7 +822,7 @@
       z-index: 10;
       opacity: 0;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       font-size: 0.9rem;
     }
 
@@ -819,8 +850,8 @@
       height: 65px;
       border-radius: 50%;
       overflow: hidden;
-      border: 3px solid rgba(255,255,255,0.9);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -841,7 +872,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(10px);
       z-index: 1000;
       display: flex;
@@ -857,7 +888,7 @@
       padding: 40px;
       max-width: 450px;
       width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -970,14 +1001,14 @@
 
     .stats-section-title {
       fontSize: '0.9rem',
-      fontWeight: '600',
-      color: '#4A5568',
-      marginBottom: '15px',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '8px'
+        fontWeight: '600',
+        color: '#4A5568',
+        marginBottom: '15px',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px'
     }
 
     .category-bar-chart {
@@ -1132,6 +1163,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
 
@@ -1700,7 +1732,7 @@
         setTimeout(() => setWiggleJar(null), 700);
 
         const randomAct = jar.acts[Math.floor(Math.random() * jar.acts.length)];
-        
+
         setTimeout(() => {
           setSelectedJar(jar);
           setCurrentAct(randomAct);
@@ -1712,14 +1744,14 @@
         // AI generation requires backend setup
         // For now, generate a random act from the existing pool
         setIsGenerating(true);
-        
+
         setTimeout(() => {
           const randomAct = selectedJar.acts[Math.floor(Math.random() * selectedJar.acts.length)];
           setCurrentAct(randomAct);
           setIsAIGenerated(false);
           setIsGenerating(false);
         }, 800);
-        
+
         // To enable true AI generation:
         // 1. Set up backend server (see STRIPE-SETUP-GUIDE)
         // 2. Create endpoint: POST /generate-kindness
@@ -1737,11 +1769,11 @@
           completedAt: new Date().toISOString(),
           date: new Date().toISOString().split('T')[0]
         };
-        
+
         setCompletedActs([...completedActs, newAct]);
         setShowCelebration(true);
         createConfetti();
-        
+
         setTimeout(() => setShowCelebration(false), 1000);
         setTimeout(() => {
           setSelectedJar(null);
@@ -1753,7 +1785,7 @@
       const createConfetti = () => {
         const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
         const shapes = ['●', '■', '▲', '★', '♥'];
-        
+
         for (let i = 0; i < 80; i++) {
           setTimeout(() => {
             const confetti = document.createElement('div');
@@ -1772,17 +1804,17 @@
       const handleDonate = async () => {
         try {
           // Configuration - Update these values for your deployment
-          const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_PUBLISHABLE_KEY_HERE'; // Replace with your Stripe publishable key
-          const BACKEND_URL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000' 
+          const STRIPE_PUBLISHABLE_KEY = 'pk_test_51StH5DPk6Kx4nhlg8sDT8rqsXZexSjURyp7MU0EOMI8e1PbkzO3jcZGe98TAaQz2B7yOhSjP7vdDTqLWczsMZ6A7003xAp7YWx'; // Your Stripe publishable key
+          const BACKEND_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:3000'
             : 'https://your-backend-url.onrender.com'; // Replace with your deployed backend URL
-          
+
           // Initialize Stripe
           const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-          
+
           // Show loading state (you could update button text here if needed)
           console.log('Creating checkout session...');
-          
+
           // Call backend to create checkout session
           const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
             method: 'POST',
@@ -1817,67 +1849,67 @@
       // Analytics Functions
       const calculateStreak = () => {
         if (completedActs.length === 0) return 0;
-        
+
         const dates = [...new Set(completedActs.map(a => a.date))].sort().reverse();
         const today = new Date().toISOString().split('T')[0];
         let streak = 0;
-        
+
         for (let i = 0; i < dates.length; i++) {
           const expectedDate = new Date();
           expectedDate.setDate(expectedDate.getDate() - streak);
           const expected = expectedDate.toISOString().split('T')[0];
-          
+
           if (dates[i] === expected) {
             streak++;
           } else {
             break;
           }
         }
-        
+
         return streak;
       };
 
       const getLast7Days = () => {
         const last7Days = [];
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        
+
         for (let i = 6; i >= 0; i--) {
           const date = new Date();
           date.setDate(date.getDate() - i);
           const dateStr = date.toISOString().split('T')[0];
           const count = completedActs.filter(act => act.date === dateStr).length;
-          
+
           last7Days.push({
             date: dateStr,
             day: dayNames[date.getDay()],
             count: count
           });
         }
-        
+
         return last7Days;
       };
 
       const getMostActiveCategory = () => {
         if (completedActs.length === 0) return null;
-        
+
         const counts = {};
         completedActs.forEach(act => {
           counts[act.category] = (counts[act.category] || 0) + 1;
         });
-        
+
         const maxCount = Math.max(...Object.values(counts));
         const mostActive = Object.keys(counts).find(key => counts[key] === maxCount);
         const jar = JARS.find(j => j.id === mostActive);
-        
+
         return { jar, count: maxCount };
       };
 
       const getAveragePerDay = () => {
         if (completedActs.length === 0) return 0;
-        
+
         const dates = [...new Set(completedActs.map(a => a.date))];
         const daysSinceFirst = dates.length;
-        
+
         return (completedActs.length / daysSinceFirst).toFixed(1);
       };
 
@@ -1887,24 +1919,24 @@
           return { jar, count };
         }).filter(item => item.count > 0)
           .sort((a, b) => b.count - a.count);
-        
+
         return breakdown;
       };
 
       const getBestDayOfWeek = () => {
         if (completedActs.length === 0) return null;
-        
+
         const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const dayCounts = [0, 0, 0, 0, 0, 0, 0];
-        
+
         completedActs.forEach(act => {
           const date = new Date(act.date);
           dayCounts[date.getDay()]++;
         });
-        
+
         const maxCount = Math.max(...dayCounts);
         const bestDay = dayCounts.indexOf(maxCount);
-        
+
         return { day: dayNames[bestDay], count: maxCount };
       };
 
@@ -1914,7 +1946,7 @@
         const mostActive = getMostActiveCategory();
         const bestDay = getBestDayOfWeek();
         const total = completedActs.length;
-        
+
         // Streak insights
         if (streak >= 7) {
           insights.push({
@@ -1929,7 +1961,7 @@
             text: `Great work! ${streak} days in a row. You're building a beautiful habit!`
           });
         }
-        
+
         // Milestone insights
         if (total >= 100) {
           insights.push({
@@ -1950,7 +1982,7 @@
             text: `You're getting started! ${total} acts completed. Every small act matters!`
           });
         }
-        
+
         // Category insights
         if (mostActive && mostActive.count >= 5) {
           insights.push({
@@ -1959,7 +1991,7 @@
             text: `You're especially kind to ${mostActive.jar.name.toLowerCase()}! ${mostActive.count} acts in this category.`
           });
         }
-        
+
         // Day of week insight
         if (bestDay && total >= 7) {
           insights.push({
@@ -1968,7 +2000,7 @@
             text: `${bestDay.day} is your most active day! You've completed ${bestDay.count} acts on ${bestDay.day}s.`
           });
         }
-        
+
         // Encouragement for new users
         if (total === 0) {
           insights.push({
@@ -1977,7 +2009,7 @@
             text: `Ready to start your kindness journey? Click any jar above to begin spreading love!`
           });
         }
-        
+
         return insights;
       };
 
@@ -2053,13 +2085,13 @@
             <div className="shelf">
               <div className="jar-grid">
                 {JARS.slice(0, 5).map(jar => (
-                  <div 
+                  <div
                     key={jar.id}
                     className="jar-item"
                     onClick={() => handleJarClick(jar)}
                   >
                     <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
-                      <button 
+                      <button
                         className="jar-edit-button"
                         onClick={(e) => handleEditImage(jar, e)}
                         title="Customize icon"
@@ -2068,7 +2100,7 @@
                       </button>
                       <div className="jar">
                         <div className="jar-lid"></div>
-                        <div 
+                        <div
                           className="jar-body"
                           style={{
                             '--jar-color-light': jar.colorLight,
@@ -2101,13 +2133,13 @@
             <div className="shelf">
               <div className="jar-grid">
                 {JARS.slice(5, 10).map(jar => (
-                  <div 
+                  <div
                     key={jar.id}
                     className="jar-item"
                     onClick={() => handleJarClick(jar)}
                   >
                     <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
-                      <button 
+                      <button
                         className="jar-edit-button"
                         onClick={(e) => handleEditImage(jar, e)}
                         title="Customize icon"
@@ -2116,7 +2148,7 @@
                       </button>
                       <div className="jar">
                         <div className="jar-lid"></div>
-                        <div 
+                        <div
                           className="jar-body"
                           style={{
                             '--jar-color-light': jar.colorLight,
@@ -2171,8 +2203,8 @@
                   }}>
                     ↻ Show Another
                   </button>
-                  <button 
-                    className="note-button ai" 
+                  <button
+                    className="note-button ai"
                     onClick={handleGenerateAI}
                     disabled={isGenerating}
                   >
@@ -2208,24 +2240,24 @@
                 <div className="note-icon">📊</div>
                 <div className="note-category">YOUR IMPACT</div>
                 <div className="note-title">Kindness Analytics</div>
-                
+
                 {completedActs.length > 0 ? (
                   <>
                     {/* Tabs */}
                     <div className="stats-tabs">
-                      <button 
+                      <button
                         className={`stats-tab ${statsTab === 'overview' ? 'active' : ''}`}
                         onClick={() => setStatsTab('overview')}
                       >
                         Overview
                       </button>
-                      <button 
+                      <button
                         className={`stats-tab ${statsTab === 'trends' ? 'active' : ''}`}
                         onClick={() => setStatsTab('trends')}
                       >
                         Trends
                       </button>
-                      <button 
+                      <button
                         className={`stats-tab ${statsTab === 'insights' ? 'active' : ''}`}
                         onClick={() => setStatsTab('insights')}
                       >
@@ -2258,7 +2290,7 @@
 
                         {/* Category Breakdown with Bar Chart */}
                         <div className="stats-section">
-                          <div style={{ 
+                          <div style={{
                             fontSize: '0.9rem',
                             fontWeight: '600',
                             color: '#4A5568',
@@ -2274,14 +2306,14 @@
                           {getCategoryBreakdown().map(({ jar, count }) => {
                             const maxCount = Math.max(...getCategoryBreakdown().map(b => b.count));
                             const percentage = (count / maxCount) * 100;
-                            
+
                             return (
                               <div key={jar.id} className="category-bar">
                                 <div className="category-bar-label">
                                   {jar.icon} {jar.name}
                                 </div>
                                 <div className="category-bar-fill">
-                                  <div 
+                                  <div
                                     className="category-bar-value"
                                     style={{ width: `${percentage}%` }}
                                   >
@@ -2300,7 +2332,7 @@
                       <>
                         {/* Last 7 Days Chart */}
                         <div className="stats-section">
-                          <div style={{ 
+                          <div style={{
                             fontSize: '0.9rem',
                             fontWeight: '600',
                             color: '#4A5568',
@@ -2317,9 +2349,9 @@
                             {getLast7Days().map(({ day, count, date }) => {
                               const maxCount = Math.max(...getLast7Days().map(d => d.count), 1);
                               const height = (count / maxCount) * 100;
-                              
+
                               return (
-                                <div 
+                                <div
                                   key={date}
                                   className="day-bar"
                                   style={{ height: `${height}%` }}
@@ -2337,7 +2369,7 @@
                         {/* Best Day */}
                         {getBestDayOfWeek() && (
                           <div className="stats-section">
-                            <div style={{ 
+                            <div style={{
                               fontSize: '0.9rem',
                               fontWeight: '600',
                               color: '#4A5568',
@@ -2370,7 +2402,7 @@
                         {/* Most Active Category */}
                         {getMostActiveCategory() && (
                           <div className="stats-section">
-                            <div style={{ 
+                            <div style={{
                               fontSize: '0.9rem',
                               fontWeight: '600',
                               color: '#4A5568',
@@ -2409,7 +2441,7 @@
                     {statsTab === 'insights' && (
                       <>
                         {getInsights().map((insight, index) => (
-                          <div 
+                          <div
                             key={index}
                             className={`insight-box ${insight.type}`}
                             style={{ marginBottom: index < getInsights().length - 1 ? '15px' : '0' }}
@@ -2440,7 +2472,7 @@
                     )}
                   </>
                 ) : (
-                  <div style={{ 
+                  <div style={{
                     fontSize: '1.1rem',
                     color: '#718096',
                     textAlign: 'center',
@@ -2477,7 +2509,7 @@
                 </p>
                 <div className="donation-options">
                   {[3, 5, 10, 20].map(amount => (
-                    <div 
+                    <div
                       key={amount}
                       className={`donation-amount ${donationAmount === amount ? 'selected' : ''}`}
                       onClick={() => setDonationAmount(amount)}
@@ -2486,8 +2518,8 @@
                     </div>
                   ))}
                 </div>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   className="custom-amount"
                   placeholder="Custom amount"
                   value={donationAmount}
@@ -2524,8 +2556,8 @@
                     <span style={{ fontSize: '5rem' }}>{editingJar.icon}</span>
                   )}
                 </div>
-                <input 
-                  type="file" 
+                <input
+                  type="file"
                   id="imageUpload"
                   className="image-upload-input"
                   accept="image/*"
@@ -2560,4 +2592,5 @@
     ReactDOM.render(<App />, document.getElementById('root'));
   </script>
 </body>
+
 </html>

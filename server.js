@@ -46,7 +46,7 @@ app.post('/create-checkout-session', async (req, res) => {
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: 'nzd', // New Zealand Dollars
             product_data: {
               name: 'Kindness Jar Donation',
               description: 'Support the Kindness Jar app and help spread kindness! 💖',
