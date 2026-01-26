@@ -1,0 +1,2522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kindness Jar - Spread Love & Joy Every Single Day!</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #C5D8E8 0%, #B8CEE0 20%, #D4C4BA 60%, #E8D5C4 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .app-header {
+      text-align: center;
+      padding: 0 0 40px;
+    }
+
+    .app-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #4A6B7C;
+      letter-spacing: 10px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .app-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: #718096;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .header-button {
+      background: rgba(255, 255, 255, 0.9);
+      color: #4A5568;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      background: white;
+    }
+
+    .header-button.donate {
+      background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+      color: white;
+    }
+
+    .shelf-container {
+      background: rgba(160, 130, 109, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 50px 30px 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .shelf {
+      position: relative;
+      margin-bottom: 80px;
+      padding-bottom: 20px;
+    }
+
+    .shelf:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Realistic wooden shelf */
+    .shelf::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -10px;
+      right: -10px;
+      height: 18px;
+      background: linear-gradient(180deg, 
+        #A68968 0%, 
+        #9D7E5E 10%,
+        #8B6F4E 50%,
+        #7D6344 90%,
+        #6B533A 100%
+      );
+      border-radius: 6px;
+      box-shadow: 
+        0 8px 16px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(255,255,255,0.2),
+        inset 0 -2px 4px rgba(0,0,0,0.3);
+    }
+
+    /* Wood grain effect */
+    .shelf::before {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -10px;
+      right: -10px;
+      height: 18px;
+      background-image: 
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 60px,
+          rgba(0,0,0,0.05) 60px,
+          rgba(0,0,0,0.05) 61px
+        );
+      z-index: 1;
+      border-radius: 6px;
+    }
+
+    .jar-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 35px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .jar-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .jar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+      
+      .app-title {
+        font-size: 2.5rem;
+        letter-spacing: 6px;
+      }
+    }
+
+    .jar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .jar-item:hover .jar-container {
+      transform: translateY(-10px);
+    }
+
+    .jar-container {
+      position: relative;
+      width: 100%;
+      max-width: 165px;
+      aspect-ratio: 2/3;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.25));
+    }
+
+    .jar-container.wiggle {
+      animation: smoothWiggle 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes smoothWiggle {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      12% { transform: rotate(-10deg) translateY(-15px); }
+      24% { transform: rotate(8deg) translateY(-18px); }
+      36% { transform: rotate(-6deg) translateY(-15px); }
+      48% { transform: rotate(4deg) translateY(-10px); }
+      60% { transform: rotate(-2deg) translateY(-5px); }
+      72% { transform: rotate(1deg) translateY(-3px); }
+      84% { transform: rotate(0deg) translateY(-1px); }
+    }
+
+    .jar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Ultra-realistic metallic threaded lid */
+    .jar-lid {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 68%;
+      height: 13%;
+      background: 
+        linear-gradient(180deg, 
+          #D4BFA8 0%,
+          #C9B197 15%,
+          #B39F86 30%,
+          #A08D74 50%,
+          #8B7A61 70%,
+          #7D6B53 85%,
+          #6F5E45 100%
+        );
+      border-radius: 10px 10px 3px 3px;
+      z-index: 5;
+      box-shadow: 
+        0 4px 8px rgba(0,0,0,0.4),
+        inset 0 2px 3px rgba(255,255,255,0.4),
+        inset 0 -2px 3px rgba(0,0,0,0.4);
+    }
+
+    /* Lid threading ridges */
+    .jar-lid::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        rgba(0,0,0,0.15) 2px,
+        transparent 2px,
+        transparent 4px,
+        rgba(255,255,255,0.1) 4px,
+        transparent 5px
+      );
+      border-radius: 10px 10px 3px 3px;
+    }
+
+    /* Lid knob */
+    .jar-lid::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32%;
+      height: 11px;
+      background: 
+        radial-gradient(ellipse at 50% 30%, 
+          #E8D4BA 0%,
+          #D4BFA8 40%,
+          #C0AB94 70%,
+          #A89680 100%
+        );
+      border-radius: 50%;
+      box-shadow: 
+        0 3px 6px rgba(0,0,0,0.4),
+        inset 0 1px 2px rgba(255,255,255,0.5);
+    }
+
+    /* Super realistic glass jar body with transparency */
+    .jar-body {
+      position: absolute;
+      top: 11%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 84%;
+      height: 84%;
+      background: 
+        linear-gradient(135deg, 
+          var(--jar-color-light) 0%, 
+          var(--jar-color-main) 45%, 
+          var(--jar-color-dark) 100%
+        );
+      border-radius: 14px 14px 22px 22px;
+      z-index: 2;
+      box-shadow: 
+        inset -8px -8px 20px rgba(0,0,0,0.2),
+        inset 8px 8px 20px rgba(255,255,255,0.6),
+        0 20px 40px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(255,255,255,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Primary highlight - left side shine */
+    .jar-body::before {
+      content: '';
+      position: absolute;
+      top: 8%;
+      left: 8%;
+      width: 42%;
+      height: 60%;
+      background: 
+        linear-gradient(145deg, 
+          rgba(255,255,255,0.85) 0%, 
+          rgba(255,255,255,0.5) 35%,
+          rgba(255,255,255,0.2) 60%,
+          transparent 100%
+        );
+      border-radius: 50%;
+      filter: blur(12px);
+      z-index: 3;
+    }
+
+    /* Secondary highlight - right side */
+    .jar-body::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 10%;
+      width: 28%;
+      height: 45%;
+      background: 
+        radial-gradient(ellipse at 50% 50%, 
+          rgba(255,255,255,0.4) 0%, 
+          rgba(255,255,255,0.15) 50%,
+          transparent 100%
+        );
+      border-radius: 50%;
+      filter: blur(10px);
+      z-index: 3;
+    }
+
+    /* Inner glow layer */
+    .jar-inner-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 50% 50%, 
+          rgba(255,255,255,0.3) 0%, 
+          transparent 70%
+        );
+      z-index: 1;
+    }
+
+    /* Glass thickness edge effect */
+    .jar-edge-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 14px 14px 22px 22px;
+      box-shadow: 
+        inset 0 0 0 2px rgba(255,255,255,0.6),
+        inset 3px 3px 8px rgba(255,255,255,0.4);
+      z-index: 4;
+    }
+
+    /* Bottom glass curve highlight */
+    .jar-bottom-curve {
+      position: absolute;
+      bottom: 5%;
+      left: 15%;
+      right: 15%;
+      height: 25%;
+      background: 
+        radial-gradient(ellipse at 50% 80%, 
+          rgba(255,255,255,0.3) 0%, 
+          transparent 60%
+        );
+      border-radius: 50%;
+      filter: blur(8px);
+      z-index: 2;
+    }
+
+    /* Clean white label with subtle shadow */
+    .jar-label-sticker {
+      position: absolute;
+      bottom: 16%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72%;
+      height: 20%;
+      background: 
+        linear-gradient(180deg,
+          #FFFFFF 0%,
+          #FEFEFE 50%,
+          #FCFCFC 100%
+        );
+      border-radius: 6px;
+      z-index: 5;
+      box-shadow: 
+        0 3px 8px rgba(0,0,0,0.2),
+        inset 0 1px 2px rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: #4A5568;
+      font-weight: 600;
+      padding: 4px 8px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Icon inside jar with subtle glow */
+    .jar-icon {
+      position: absolute;
+      top: 36%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.8rem;
+      z-index: 3;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+      animation: subtleFloat 3.5s ease-in-out infinite;
+    }
+
+    @keyframes subtleFloat {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-7px); }
+    }
+
+    /* Shadow under jar on shelf */
+    .jar-shadow {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75%;
+      height: 12px;
+      background: radial-gradient(ellipse at 50% 50%, 
+        rgba(0,0,0,0.3) 0%, 
+        rgba(0,0,0,0.15) 50%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      filter: blur(6px);
+      z-index: 1;
+    }
+
+    /* Note overlay - unchanged */
+    .note-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s;
+    }
+
+    .note-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 550px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .note-icon {
+      text-align: center;
+      font-size: 5rem;
+      margin-bottom: 20px;
+      animation: iconPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+    }
+
+    @keyframes iconPop {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .note-category {
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #718096;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .note-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .note-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #4A5568;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    .ai-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .note-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .note-button {
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .note-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .note-button:active {
+      transform: scale(0.98);
+    }
+
+    .note-button.primary {
+      background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
+      color: white;
+    }
+
+    .note-button.secondary {
+      background: linear-gradient(135deg, #ED8936 0%, #DD6B20 100%);
+      color: white;
+    }
+
+    .note-button.ai {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .note-button.tertiary {
+      background: transparent;
+      color: #718096;
+      box-shadow: none;
+    }
+
+    .note-button.tertiary:hover {
+      color: #4A5568;
+    }
+
+    /* Confetti celebration */
+    .completed-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2000;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .completed-check {
+      font-size: 12rem;
+      animation: checkPulse 1s ease-out;
+      filter: drop-shadow(0 0 30px rgba(72, 187, 120, 0.8));
+    }
+
+    @keyframes checkPulse {
+      0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.3) rotate(10deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      animation: confettiFall 3s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) translateX(var(--x)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Donation modal */
+    .donation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s;
+    }
+
+    .donation-content {
+      background: white;
+      border-radius: 20px;
+      padding: 45px 35px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .donation-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2D3748;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .donation-message {
+      font-size: 1.1rem;
+      color: #4A5568;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .donation-options {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .donation-amount {
+      background: white;
+      border: 2px solid #E2E8F0;
+      padding: 14px 26px;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: #4A5568;
+    }
+
+    .donation-amount:hover {
+      border-color: #CBD5E0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .donation-amount.selected {
+      background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+      border-color: #FFB6C1;
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+    }
+
+    .custom-amount {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 20px;
+      background: white;
+    }
+
+    .custom-amount:focus {
+      outline: none;
+      border-color: #CBD5E0;
+    }
+
+    /* Custom image upload */
+    .jar-edit-button {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: 2px solid #E2E8F0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-size: 0.9rem;
+    }
+
+    .jar-item:hover .jar-edit-button {
+      opacity: 1;
+    }
+
+    .jar-edit-button:hover {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .custom-image-icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .jar-icon.has-custom-image {
+      font-size: 0;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,0.9);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+    }
+
+    .jar-icon.has-custom-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Edit image modal */
+    .edit-image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s;
+    }
+
+    .edit-image-content {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .edit-image-preview {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      border: 4px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      overflow: hidden;
+      background: #F7FAFC;
+    }
+
+    .edit-image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-upload-input {
+      display: none;
+    }
+
+    .image-upload-label {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .image-upload-label:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .image-upload-label:active {
+      transform: scale(0.98);
+    }
+
+    .image-info {
+      font-size: 0.9rem;
+      color: #718096;
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* Stats Dashboard Styles */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .stat-card.green {
+      background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
+    }
+
+    .stat-card.orange {
+      background: linear-gradient(135deg, #ED8936 0%, #DD6B20 100%);
+    }
+
+    .stat-card.blue {
+      background: linear-gradient(135deg, #4299E1 0%, #3182CE 100%);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stats-section {
+      background: #F7FAFC;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .stats-section-title {
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      color: '#4A5568',
+      marginBottom: '15px',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+
+    .category-bar-chart {
+      margin-bottom: 12px;
+    }
+
+    .category-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .category-bar-label {
+      min-width: 120px;
+      font-size: 0.95rem;
+      color: #4A5568;
+    }
+
+    .category-bar-fill {
+      flex: 1;
+      height: 28px;
+      background: #E2E8F0;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-bar-value {
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: width 0.6s ease;
+    }
+
+    .day-chart {
+      display: flex;
+      gap: 6px;
+      align-items: flex-end;
+      height: 120px;
+      margin-top: 15px;
+      padding: 0 5px;
+    }
+
+    .day-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      min-height: 4px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .day-bar:hover {
+      opacity: 0.8;
+      transform: translateY(-2px);
+    }
+
+    .day-bar-label {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: #718096;
+      white-space: nowrap;
+    }
+
+    .day-bar-count {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #4A5568;
+      white-space: nowrap;
+    }
+
+    .insight-box {
+      background: linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%);
+      border-left: 4px solid #F56565;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .insight-box.success {
+      background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%);
+      border-left-color: #48BB78;
+    }
+
+    .insight-box.info {
+      background: linear-gradient(135deg, #EBF8FF 0%, #BEE3F8 100%);
+      border-left-color: #4299E1;
+    }
+
+    .insight-text {
+      font-size: 0.95rem;
+      color: #2D3748;
+      line-height: 1.6;
+    }
+
+    .stats-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #E2E8F0;
+    }
+
+    .stats-tab {
+      padding: 10px 20px;
+      background: transparent;
+      border: none;
+      color: #718096;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .stats-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .stats-tab:hover {
+      color: #4A5568;
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .category-bar-label {
+        min-width: 90px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const JARS = [
+      {
+        id: 'partner',
+        name: 'Partner',
+        icon: '❤️',
+        colorLight: '#FFE0E8',
+        colorMain: '#FFC0D0',
+        colorDark: '#FF9BB8',
+        acts: [
+          "Write a love note and hide it somewhere they'll find it",
+          "Make their favorite breakfast in bed",
+          "Give them an unexpected compliment about something specific",
+          "Plan a surprise date night at home with candles",
+          "Do one of their chores without being asked",
+          "Send them a sweet text in the middle of the day",
+          "Give them a 10-minute shoulder massage",
+          "Listen to them talk about their day without interrupting",
+          "Surprise them with their favorite snack or treat",
+          "Hold their hand for no reason",
+          "Tell them three things you appreciate about them",
+          "Watch their favorite movie with them, even if you've seen it",
+          "Make a playlist of songs that remind you of them",
+          "Kiss them goodbye like it's the first time",
+          "Give them your full attention for an hour (no phone)",
+          "Remember and do something they mentioned wanting to do",
+          "Take over a task they've been dreading",
+          "Compliment them in front of others",
+          "Plan a future adventure together",
+          "Recreate your first date or a special memory",
+          "Leave love notes in unexpected places for a week",
+          "Cook their favorite meal from scratch",
+          "Create a photo album or scrapbook of your memories together",
+          "Plan a surprise picnic in a beautiful location",
+          "Give them a day off - handle everything they usually do",
+          "Write them a poem or song",
+          "Recreate your first kiss",
+          "Buy them flowers for no reason",
+          "Plan a weekend getaway surprise",
+          "Make a video montage of your relationship",
+          "Learn their love language and use it intentionally today",
+          "Give them a spa day at home",
+          "Dance with them in the kitchen",
+          "Tell them why you fell in love with them",
+          "Support their biggest dream out loud",
+          "Make a bucket list together",
+          "Surprise them at work with lunch",
+          "Create a tradition just for the two of you",
+          "Tell them what you admire most about them",
+          "Plan a stargazing date night"
+        ]
+      },
+      {
+        id: 'mother',
+        name: 'Mother',
+        icon: '🌸',
+        colorLight: '#EFE5F5',
+        colorMain: '#DCC5E8',
+        colorDark: '#C8A8D8',
+        acts: [
+          "Call her just to say 'I love you'",
+          "Send her flowers or a plant for no reason",
+          "Offer to help with a task she's been putting off",
+          "Cook her favorite meal",
+          "Share a happy memory you have with her",
+          "Thank her for something specific she did when you were younger",
+          "Send her a heartfelt card or letter",
+          "Plan a mother-daughter/son day doing something she loves",
+          "Help her with technology (phone, computer, etc.)",
+          "Give her a sincere compliment",
+          "Ask for her advice about something",
+          "Listen to her stories without rushing",
+          "Offer to do her grocery shopping",
+          "Take her out for lunch or coffee",
+          "Help her organize or declutter something",
+          "Frame a special photo for her",
+          "Learn to make one of her signature recipes with her",
+          "Surprise her with a visit if you live apart",
+          "Tell her you're proud of her",
+          "Simply spend quality time with her doing nothing special",
+          "Create a memory book of her life stories",
+          "Video call her if you're far away",
+          "Plant flowers in her garden together",
+          "Give her a handmade gift",
+          "Take her to get her nails done",
+          "Watch her favorite TV show together",
+          "Ask about her childhood and really listen",
+          "Help her with a home improvement project",
+          "Bring her breakfast in bed",
+          "Tell her a specific way she made your life better",
+          "Give her a day of complete relaxation",
+          "Create a playlist of her favorite songs",
+          "Take her shopping and treat her to something special",
+          "Write down her favorite recipes in her handwriting",
+          "Ask her to teach you something she's good at",
+          "Give her a photo session and frame the best ones",
+          "Plan a family gathering in her honor",
+          "Share an article or book you think she'd enjoy",
+          "Tell her thank you for being your mom",
+          "Make a donation to her favorite charity in her name"
+        ]
+      },
+      {
+        id: 'father',
+        name: 'Father',
+        icon: '🛠️',
+        colorLight: '#D6E8F5',
+        colorMain: '#A8D0EA',
+        colorDark: '#7AB8DD',
+        acts: [
+          "Call him just to hear his voice",
+          "Ask him to teach you something he's skilled at",
+          "Thank him for a sacrifice he made for you",
+          "Watch a sports game or show he likes together",
+          "Help him with a project around the house",
+          "Share a proud moment in your life with him",
+          "Ask about his childhood and really listen",
+          "Take him out for his favorite meal",
+          "Give him a sincere hug",
+          "Tell him you appreciate his hard work",
+          "Help him with yard work or car maintenance",
+          "Learn about his hobbies and show genuine interest",
+          "Send him a photo that will make him smile",
+          "Ask for his advice on something important",
+          "Spend quality time doing what he loves",
+          "Tell him a specific way he influenced your life",
+          "Share a joke or funny story with him",
+          "Help him with technology he's struggling with",
+          "Plan a father-son/daughter activity",
+          "Thank him for being your dad",
+          "Cook his favorite meal for him",
+          "Give him a day to relax completely",
+          "Ask about his dreams when he was younger",
+          "Tell him you're proud to be his child",
+          "Work on his car together",
+          "Take him fishing or to do his favorite outdoor activity",
+          "Frame a special photo of you two together",
+          "Ask him about his father",
+          "Learn one of his favorite songs on an instrument",
+          "Help him organize his garage or workshop",
+          "Surprise him with tickets to something he'd enjoy",
+          "Make a video message telling him what he means to you",
+          "Ask him to share his best life advice",
+          "Give him a book on a topic he's interested in",
+          "Spend a whole day with him doing his favorite things",
+          "Tell him thank you for the values he taught you",
+          "Ask him about his proudest moments",
+          "Create a photo album of memories together",
+          "Simply tell him 'I love you, Dad'",
+          "Make him breakfast and let him sleep in"
+        ]
+      },
+      {
+        id: 'family',
+        name: 'Family',
+        icon: '🏠',
+        colorLight: '#FFF5DD',
+        colorMain: '#FFE8B8',
+        colorDark: '#FFD894',
+        acts: [
+          "Organize a family game night",
+          "Start a new family tradition",
+          "Create a family group chat if you don't have one",
+          "Share a favorite childhood memory with everyone",
+          "Plan a surprise family gathering",
+          "Make a family photo album or scrapbook",
+          "Cook a meal together as a family",
+          "Tell each family member something you appreciate about them",
+          "Organize old family photos and share them digitally",
+          "Plan a family movie night with everyone's favorites",
+          "Start a family recipe book with everyone's contributions",
+          "Surprise a family member with their favorite treat",
+          "Mediate and help resolve a family conflict peacefully",
+          "Create a family tree together",
+          "Share funny family stories with the younger generation",
+          "Organize a family video call if you're apart",
+          "Plan a family picnic or outdoor day",
+          "Help a family member with a task they're struggling with",
+          "Send a group text celebrating someone's achievement",
+          "Create a family time capsule",
+          "Interview family elders and record their stories",
+          "Surprise everyone with a family talent show",
+          "Make a family playlist with everyone's song choices",
+          "Organize a family charity project together",
+          "Create family awards (funniest, kindest, etc.)",
+          "Plan a family reunion or gathering",
+          "Share what you're grateful for about your family",
+          "Help younger family members with homework or skills",
+          "Organize a family potluck dinner",
+          "Create a family book club",
+          "Plan surprise birthday celebrations together",
+          "Start a family garden together",
+          "Make matching family t-shirts or something fun",
+          "Organize family sports day or activities",
+          "Create a shared family calendar",
+          "Help preserve family heirlooms or traditions",
+          "Plan a family adventure or day trip",
+          "Make a family music jam session",
+          "Share your hopes and dreams with your family",
+          "Tell your family how much they mean to you"
+        ]
+      },
+      {
+        id: 'friends',
+        name: 'Friends',
+        icon: '🎉',
+        colorLight: '#FFE0CC',
+        colorMain: '#FFC09F',
+        colorDark: '#FFA578',
+        acts: [
+          "Send a random 'thinking of you' text to a friend",
+          "Plan a surprise hangout doing something they love",
+          "Share a meme or joke that reminds you of them",
+          "Be there for them when they need to vent",
+          "Celebrate their wins, big or small",
+          "Send them a care package or surprise gift",
+          "Reach out to a friend you haven't talked to in a while",
+          "Help them with something they're stressed about",
+          "Plan a fun adventure together",
+          "Tell them why you value their friendship",
+          "Be a good listener without giving unsolicited advice",
+          "Remember and acknowledge important dates in their life",
+          "Introduce them to someone they might connect with",
+          "Support their dreams and goals actively",
+          "Create a playlist for them",
+          "Share a book or show you think they'd love",
+          "Organize a group hangout with mutual friends",
+          "Help them move or with a big project",
+          "Send them encouragement before a big event",
+          "Make them laugh when they're feeling down",
+          "Be honest with them when they need it",
+          "Give them space when they need it",
+          "Remember details from past conversations",
+          "Plan a regular catch-up tradition (weekly coffee, etc.)",
+          "Celebrate their birthday in a meaningful way",
+          "Share your own vulnerabilities to deepen connection",
+          "Take photos together to preserve memories",
+          "Support their side hustle or passion project",
+          "Give them a meaningful compliment",
+          "Be present without your phone when together",
+          "Surprise them at work with lunch or coffee",
+          "Create inside jokes and keep them alive",
+          "Defend them when they're not around",
+          "Include them in your plans spontaneously",
+          "Share something that made you think of them",
+          "Help them through a tough breakup or life change",
+          "Plan a trip together",
+          "Tell them a specific way they've made your life better",
+          "Be their cheerleader, always",
+          "Simply say 'I'm grateful for our friendship'"
+        ]
+      },
+      {
+        id: 'colleagues',
+        name: 'Colleagues',
+        icon: '💼',
+        colorLight: '#E8E0F5',
+        colorMain: '#D0C0E8',
+        colorDark: '#B8A0D8',
+        acts: [
+          "Bring coffee or treats for the team",
+          "Publicly acknowledge someone's hard work",
+          "Help a colleague with a challenging task",
+          "Share credit for team successes",
+          "Mentor a junior colleague",
+          "Send a thank you email to someone who helped you",
+          "Offer to cover for someone who needs time off",
+          "Include quieter voices in meetings",
+          "Share useful resources or knowledge freely",
+          "Celebrate work anniversaries and milestones",
+          "Give genuine, specific compliments on work",
+          "Help onboard a new team member warmly",
+          "Organize a team lunch or coffee break",
+          "Defend a colleague's idea in a meeting",
+          "Offer constructive feedback kindly",
+          "Share an opportunity that might benefit them",
+          "Nominate someone for recognition or awards",
+          "Be punctual and respectful of others' time",
+          "Create a positive atmosphere in meetings",
+          "Help someone learn a new skill",
+          "Remember personal details and ask about them",
+          "Support work-life balance for your team",
+          "Volunteer to take on an unpopular task",
+          "Listen to complaints without judgment",
+          "Collaborate instead of compete",
+          "Send a congratulations note for achievements",
+          "Include everyone in team celebrations",
+          "Share workload when someone is overwhelmed",
+          "Give space for others to shine",
+          "Be reliable and follow through on commitments",
+          "Create documentation to help others",
+          "Organize team-building activities",
+          "Welcome diverse perspectives and ideas",
+          "Help resolve conflicts professionally",
+          "Send encouragement before big presentations",
+          "Celebrate small wins, not just big ones",
+          "Be a positive presence in the workplace",
+          "Thank the support staff (cleaners, security, etc.)",
+          "Respect boundaries and personal time",
+          "Create a culture of kindness at work"
+        ]
+      },
+      {
+        id: 'strangers',
+        name: 'Strangers',
+        icon: '🌍',
+        colorLight: '#D4E8D4',
+        colorMain: '#AFDAAF',
+        colorDark: '#8ACC8A',
+        acts: [
+          "Compliment someone genuinely (outfit, smile, etc.)",
+          "Hold the door open for people behind you",
+          "Let someone go ahead of you in line",
+          "Smile and make eye contact with passersby",
+          "Leave a generous tip for great service",
+          "Help someone carry heavy bags or packages",
+          "Give up your seat on public transport",
+          "Pay for the person behind you in the coffee line",
+          "Leave a kind note in a library book",
+          "Pick up litter you see on the street",
+          "Give directions with patience and kindness",
+          "Say thank you to service workers (cashiers, drivers, etc.)",
+          "Leave quarters in vending machines",
+          "Help someone who looks lost",
+          "Donate items to a charity shop",
+          "Return a shopping cart for someone",
+          "Leave a positive online review for a local business",
+          "Donate blood or sign up to be an organ donor",
+          "Give your umbrella to someone in the rain",
+          "Leave encouraging notes in random places",
+          "Offer your phone charger to someone in need",
+          "Help a parent struggling with kids/stroller",
+          "Shovel snow for a neighbor or elderly person",
+          "Leave a care package for a homeless person",
+          "Teach someone something useful",
+          "Be patient with someone learning English",
+          "Wave to kids looking out of car windows",
+          "Thank a veteran for their service",
+          "Leave extra change in a parking meter",
+          "Offer to take a photo for tourists",
+          "Help someone reach something on a high shelf",
+          "Give your spot in line to someone in a hurry",
+          "Send an anonymous gift to someone who needs it",
+          "Volunteer at a local shelter or food bank",
+          "Write thank you notes to essential workers",
+          "Be kind to telemarketers (they're people too)",
+          "Offer help before being asked",
+          "Share your expertise freely when asked",
+          "Welcome new neighbors with a small gift",
+          "Simply spread positivity wherever you go"
+        ]
+      },
+      {
+        id: 'nature',
+        name: 'Nature',
+        icon: '🌱',
+        colorLight: '#C8E8E5',
+        colorMain: '#9FDAD5',
+        colorDark: '#76CCC5',
+        acts: [
+          "Pick up litter in a park or natural area",
+          "Plant a tree or flowers in your community",
+          "Create a bird feeder or bird bath",
+          "Avoid single-use plastics today",
+          "Support environmental organizations",
+          "Start composting food scraps",
+          "Use reusable bags, bottles, and containers",
+          "Reduce water usage (shorter showers, etc.)",
+          "Switch to energy-efficient light bulbs",
+          "Walk or bike instead of driving today",
+          "Create a wildlife-friendly garden space",
+          "Learn about local endangered species",
+          "Participate in a beach or park cleanup",
+          "Buy from sustainable and eco-friendly brands",
+          "Reduce meat consumption for a day or week",
+          "Share environmental tips with friends",
+          "Turn off lights and electronics when not in use",
+          "Support local farmers markets",
+          "Create habitats for beneficial insects",
+          "Educate others about climate change",
+          "Plant native species in your garden",
+          "Fix leaky faucets to conserve water",
+          "Recycle and learn proper recycling methods",
+          "Use natural cleaning products",
+          "Create a rain garden or install rain barrels",
+          "Support renewable energy initiatives",
+          "Reduce, reuse, recycle in that order",
+          "Leave no trace when hiking or camping",
+          "Build a bee hotel or insect house",
+          "Choose products with minimal packaging",
+          "Hang clothes to dry instead of using dryer",
+          "Support conservation efforts financially",
+          "Create a community garden",
+          "Avoid pesticides and herbicides",
+          "Preserve green spaces in your community",
+          "Learn to identify local plants and animals",
+          "Share produce from your garden",
+          "Take eco-friendly transportation",
+          "Spread awareness about environmental issues",
+          "Spend time in nature and appreciate its beauty"
+        ]
+      },
+      {
+        id: 'pets',
+        name: 'Pets',
+        icon: '🐾',
+        colorLight: '#FFE0EC',
+        colorMain: '#FFC0D8',
+        colorDark: '#FFA0C8',
+        acts: [
+          "Give your pet extra playtime today",
+          "Surprise them with a new toy or treat",
+          "Take them on a longer walk or adventure",
+          "Brush or groom them lovingly",
+          "Create a comfortable new sleeping spot",
+          "Learn a new trick together through positive training",
+          "Have a special photoshoot with your pet",
+          "Make homemade treats for them",
+          "Clean and organize their toys and belongings",
+          "Give them your undivided attention for an hour",
+          "Take them to their favorite park or spot",
+          "Schedule and attend a vet checkup",
+          "Update their ID tags and microchip info",
+          "Create a pet Instagram to document memories",
+          "Donate to an animal shelter in their honor",
+          "Set up a play date with another pet",
+          "Make a cozy window perch for them",
+          "Try a new activity together (agility, swimming, etc.)",
+          "Upgrade their food or water bowls",
+          "Give them a gentle massage",
+          "Take them on a car ride to somewhere fun",
+          "Create a special meal or 'pupcake' for them",
+          "Spend time just cuddling together",
+          "Build or buy them new furniture (cat tree, dog bed)",
+          "Take them to a pet-friendly cafe or store",
+          "Learn more about their breed or species needs",
+          "Create a safe outdoor space for them",
+          "Volunteer at an animal shelter",
+          "Foster an animal in need",
+          "Teach them something new",
+          "Get them a cozy sweater or outfit for cold weather",
+          "Set up a treasure hunt with treats",
+          "Give them a spa day (bath, nail trim, etc.)",
+          "Rotate their toys to keep things interesting",
+          "Create an obstacle course for them",
+          "Take them to meet new friendly people or pets",
+          "Invest in their health with supplements or insurance",
+          "Make a scrapbook of your time together",
+          "Tell them how much you love them",
+          "Appreciate them for the joy they bring to your life"
+        ]
+      },
+      {
+        id: 'selfcare',
+        name: 'Self-Care',
+        icon: '🧘',
+        colorLight: '#FFF8DD',
+        colorMain: '#FFECAD',
+        colorDark: '#FFE085',
+        acts: [
+          "Take a relaxing bath with candles and music",
+          "Go to bed 30 minutes earlier tonight",
+          "Drink 8 glasses of water today",
+          "Do a face mask or spa treatment at home",
+          "Take a walk outside without your phone",
+          "Write in a gratitude journal",
+          "Say no to something that drains your energy",
+          "Prepare a healthy, nourishing meal for yourself",
+          "Meditate for 10 minutes",
+          "Stretch or do gentle yoga",
+          "Read a book just for pleasure",
+          "Listen to your favorite music loudly",
+          "Take a break from social media for the day",
+          "Watch the sunrise or sunset mindfully",
+          "Forgive yourself for a past mistake",
+          "Get a massage or book a spa treatment",
+          "Clean and organize your living space",
+          "Buy yourself flowers or a plant",
+          "Have a digital detox evening",
+          "Practice positive affirmations",
+          "Do absolutely nothing guilt-free for an hour",
+          "Call a therapist or counselor if needed",
+          "Pamper yourself with a new skincare routine",
+          "Dance freely to music you love",
+          "Take yourself on a solo date",
+          "Create art, write, or express yourself creatively",
+          "Get 8+ hours of sleep tonight",
+          "Declutter one area that stresses you",
+          "Try a new hobby you've been curious about",
+          "Set a healthy boundary with someone",
+          "Treat yourself to something special",
+          "Practice deep breathing exercises",
+          "Spend time in nature",
+          "Watch a movie that makes you happy",
+          "Journal your thoughts and feelings",
+          "Exercise in a way that feels good",
+          "Eat your favorite comfort food mindfully",
+          "Look in the mirror and say kind things to yourself",
+          "Rest without feeling guilty about it",
+          "Celebrate yourself for making it this far"
+        ]
+      }
+    ];
+
+    function App() {
+      const [selectedJar, setSelectedJar] = useState(null);
+      const [currentAct, setCurrentAct] = useState(null);
+      const [isAIGenerated, setIsAIGenerated] = useState(false);
+      const [wiggleJar, setWiggleJar] = useState(null);
+      const [completedActs, setCompletedActs] = useState([]);
+      const [showStats, setShowStats] = useState(false);
+      const [showCelebration, setShowCelebration] = useState(false);
+      const [showDonation, setShowDonation] = useState(false);
+      const [isGenerating, setIsGenerating] = useState(false);
+      const [donationAmount, setDonationAmount] = useState(5);
+      const [customImages, setCustomImages] = useState({});
+      const [editingJar, setEditingJar] = useState(null);
+      const [previewImage, setPreviewImage] = useState(null);
+      const [statsTab, setStatsTab] = useState('overview');
+
+      useEffect(() => {
+        const saved = localStorage.getItem('kindnessJar_completedActs');
+        if (saved) {
+          setCompletedActs(JSON.parse(saved));
+        }
+
+        const savedImages = localStorage.getItem('kindnessJar_customImages');
+        if (savedImages) {
+          setCustomImages(JSON.parse(savedImages));
+        }
+      }, []);
+
+      useEffect(() => {
+        localStorage.setItem('kindnessJar_completedActs', JSON.stringify(completedActs));
+      }, [completedActs]);
+
+      useEffect(() => {
+        localStorage.setItem('kindnessJar_customImages', JSON.stringify(customImages));
+      }, [customImages]);
+
+      useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get('success');
+        const canceled = urlParams.get('canceled');
+        const amount = urlParams.get('amount');
+
+        if (success) {
+          const dollars = (parseInt(amount) / 100).toFixed(2);
+          alert(`🎉 Thank you for your $${dollars} donation! You're amazing! 💖`);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        if (canceled) {
+          alert('Donation was canceled. No worries, you can try again anytime! 😊');
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }, []);
+
+      const handleJarClick = (jar) => {
+        setWiggleJar(jar.id);
+        setTimeout(() => setWiggleJar(null), 700);
+
+        const randomAct = jar.acts[Math.floor(Math.random() * jar.acts.length)];
+        
+        setTimeout(() => {
+          setSelectedJar(jar);
+          setCurrentAct(randomAct);
+          setIsAIGenerated(false);
+        }, 300);
+      };
+
+      const handleGenerateAI = async () => {
+        // AI generation requires backend setup
+        // For now, generate a random act from the existing pool
+        setIsGenerating(true);
+        
+        setTimeout(() => {
+          const randomAct = selectedJar.acts[Math.floor(Math.random() * selectedJar.acts.length)];
+          setCurrentAct(randomAct);
+          setIsAIGenerated(false);
+          setIsGenerating(false);
+        }, 800);
+        
+        // To enable true AI generation:
+        // 1. Set up backend server (see STRIPE-SETUP-GUIDE)
+        // 2. Create endpoint: POST /generate-kindness
+        // 3. Backend calls Anthropic API with your API key
+        // 4. Replace above code with fetch to your backend
+      };
+
+      const handleComplete = () => {
+        const newAct = {
+          id: Date.now().toString(),
+          category: selectedJar.id,
+          categoryName: selectedJar.name,
+          act: currentAct,
+          isAI: isAIGenerated,
+          completedAt: new Date().toISOString(),
+          date: new Date().toISOString().split('T')[0]
+        };
+        
+        setCompletedActs([...completedActs, newAct]);
+        setShowCelebration(true);
+        createConfetti();
+        
+        setTimeout(() => setShowCelebration(false), 1000);
+        setTimeout(() => {
+          setSelectedJar(null);
+          setCurrentAct(null);
+          setIsAIGenerated(false);
+        }, 1200);
+      };
+
+      const createConfetti = () => {
+        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
+        const shapes = ['●', '■', '▲', '★', '♥'];
+        
+        for (let i = 0; i < 80; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+            confetti.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+          }, i * 15);
+        }
+      };
+
+      const handleDonate = async () => {
+        alert('Donation feature coming soon! Thank you for your support! 💖');
+      };
+
+      // Analytics Functions
+      const calculateStreak = () => {
+        if (completedActs.length === 0) return 0;
+        
+        const dates = [...new Set(completedActs.map(a => a.date))].sort().reverse();
+        const today = new Date().toISOString().split('T')[0];
+        let streak = 0;
+        
+        for (let i = 0; i < dates.length; i++) {
+          const expectedDate = new Date();
+          expectedDate.setDate(expectedDate.getDate() - streak);
+          const expected = expectedDate.toISOString().split('T')[0];
+          
+          if (dates[i] === expected) {
+            streak++;
+          } else {
+            break;
+          }
+        }
+        
+        return streak;
+      };
+
+      const getLast7Days = () => {
+        const last7Days = [];
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        
+        for (let i = 6; i >= 0; i--) {
+          const date = new Date();
+          date.setDate(date.getDate() - i);
+          const dateStr = date.toISOString().split('T')[0];
+          const count = completedActs.filter(act => act.date === dateStr).length;
+          
+          last7Days.push({
+            date: dateStr,
+            day: dayNames[date.getDay()],
+            count: count
+          });
+        }
+        
+        return last7Days;
+      };
+
+      const getMostActiveCategory = () => {
+        if (completedActs.length === 0) return null;
+        
+        const counts = {};
+        completedActs.forEach(act => {
+          counts[act.category] = (counts[act.category] || 0) + 1;
+        });
+        
+        const maxCount = Math.max(...Object.values(counts));
+        const mostActive = Object.keys(counts).find(key => counts[key] === maxCount);
+        const jar = JARS.find(j => j.id === mostActive);
+        
+        return { jar, count: maxCount };
+      };
+
+      const getAveragePerDay = () => {
+        if (completedActs.length === 0) return 0;
+        
+        const dates = [...new Set(completedActs.map(a => a.date))];
+        const daysSinceFirst = dates.length;
+        
+        return (completedActs.length / daysSinceFirst).toFixed(1);
+      };
+
+      const getCategoryBreakdown = () => {
+        const breakdown = JARS.map(jar => {
+          const count = completedActs.filter(act => act.category === jar.id).length;
+          return { jar, count };
+        }).filter(item => item.count > 0)
+          .sort((a, b) => b.count - a.count);
+        
+        return breakdown;
+      };
+
+      const getBestDayOfWeek = () => {
+        if (completedActs.length === 0) return null;
+        
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayCounts = [0, 0, 0, 0, 0, 0, 0];
+        
+        completedActs.forEach(act => {
+          const date = new Date(act.date);
+          dayCounts[date.getDay()]++;
+        });
+        
+        const maxCount = Math.max(...dayCounts);
+        const bestDay = dayCounts.indexOf(maxCount);
+        
+        return { day: dayNames[bestDay], count: maxCount };
+      };
+
+      const getInsights = () => {
+        const insights = [];
+        const streak = calculateStreak();
+        const mostActive = getMostActiveCategory();
+        const bestDay = getBestDayOfWeek();
+        const total = completedActs.length;
+        
+        // Streak insights
+        if (streak >= 7) {
+          insights.push({
+            type: 'success',
+            icon: '🔥',
+            text: `Amazing! You're on a ${streak}-day streak! Keep the kindness flowing!`
+          });
+        } else if (streak >= 3) {
+          insights.push({
+            type: 'success',
+            icon: '⭐',
+            text: `Great work! ${streak} days in a row. You're building a beautiful habit!`
+          });
+        }
+        
+        // Milestone insights
+        if (total >= 100) {
+          insights.push({
+            type: 'success',
+            icon: '🎉',
+            text: `Incredible! You've completed ${total} acts of kindness. You're truly making a difference!`
+          });
+        } else if (total >= 50) {
+          insights.push({
+            type: 'success',
+            icon: '🌟',
+            text: `Halfway to 100! You've completed ${total} acts. Keep spreading love!`
+          });
+        } else if (total >= 10) {
+          insights.push({
+            type: 'info',
+            icon: '💪',
+            text: `You're getting started! ${total} acts completed. Every small act matters!`
+          });
+        }
+        
+        // Category insights
+        if (mostActive && mostActive.count >= 5) {
+          insights.push({
+            type: 'info',
+            icon: mostActive.jar.icon,
+            text: `You're especially kind to ${mostActive.jar.name.toLowerCase()}! ${mostActive.count} acts in this category.`
+          });
+        }
+        
+        // Day of week insight
+        if (bestDay && total >= 7) {
+          insights.push({
+            type: 'info',
+            icon: '📅',
+            text: `${bestDay.day} is your most active day! You've completed ${bestDay.count} acts on ${bestDay.day}s.`
+          });
+        }
+        
+        // Encouragement for new users
+        if (total === 0) {
+          insights.push({
+            type: 'info',
+            icon: '🌱',
+            text: `Ready to start your kindness journey? Click any jar above to begin spreading love!`
+          });
+        }
+        
+        return insights;
+      };
+
+      const handleEditImage = (jar, e) => {
+        e.stopPropagation();
+        setEditingJar(jar);
+        setPreviewImage(customImages[jar.id] || null);
+      };
+
+      const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Check file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+          alert('Image too large! Please choose an image under 2MB.');
+          return;
+        }
+
+        // Check file type
+        if (!file.type.startsWith('image/')) {
+          alert('Please select an image file.');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64Image = event.target.result;
+          setPreviewImage(base64Image);
+        };
+        reader.readAsDataURL(file);
+      };
+
+      const handleSaveImage = () => {
+        if (previewImage) {
+          setCustomImages({
+            ...customImages,
+            [editingJar.id]: previewImage
+          });
+        }
+        setEditingJar(null);
+        setPreviewImage(null);
+      };
+
+      const handleRemoveImage = () => {
+        const newImages = { ...customImages };
+        delete newImages[editingJar.id];
+        setCustomImages(newImages);
+        setPreviewImage(null);
+      };
+
+      const handleCancelEdit = () => {
+        setEditingJar(null);
+        setPreviewImage(null);
+      };
+
+      return (
+        <div className="app-container">
+          <div className="app-header">
+            <h1 className="app-title">KINDNESS JAR!</h1>
+            <p className="app-subtitle">Spread Love & Joy Every Single Day!</p>
+            <div className="button-row">
+              <button className="header-button" onClick={() => setShowStats(true)}>
+                📊 My Impact
+              </button>
+              <button className="header-button donate" onClick={() => setShowDonation(true)}>
+                💝 Support This App
+              </button>
+            </div>
+          </div>
+
+          <div className="shelf-container">
+            <div className="shelf">
+              <div className="jar-grid">
+                {JARS.slice(0, 5).map(jar => (
+                  <div 
+                    key={jar.id}
+                    className="jar-item"
+                    onClick={() => handleJarClick(jar)}
+                  >
+                    <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
+                      <button 
+                        className="jar-edit-button"
+                        onClick={(e) => handleEditImage(jar, e)}
+                        title="Customize icon"
+                      >
+                        ✏️
+                      </button>
+                      <div className="jar">
+                        <div className="jar-lid"></div>
+                        <div 
+                          className="jar-body"
+                          style={{
+                            '--jar-color-light': jar.colorLight,
+                            '--jar-color-main': jar.colorMain,
+                            '--jar-color-dark': jar.colorDark
+                          }}
+                        >
+                          <div className="jar-inner-glow"></div>
+                          <div className="jar-edge-highlight"></div>
+                          <div className="jar-bottom-curve"></div>
+                          <div className={`jar-icon ${customImages[jar.id] ? 'has-custom-image' : ''}`}>
+                            {customImages[jar.id] ? (
+                              <img src={customImages[jar.id]} alt={jar.name} className="custom-image-icon" />
+                            ) : (
+                              jar.icon
+                            )}
+                          </div>
+                          <div className="jar-label-sticker">
+                            {jar.name}
+                          </div>
+                        </div>
+                        <div className="jar-shadow"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="shelf">
+              <div className="jar-grid">
+                {JARS.slice(5, 10).map(jar => (
+                  <div 
+                    key={jar.id}
+                    className="jar-item"
+                    onClick={() => handleJarClick(jar)}
+                  >
+                    <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
+                      <button 
+                        className="jar-edit-button"
+                        onClick={(e) => handleEditImage(jar, e)}
+                        title="Customize icon"
+                      >
+                        ✏️
+                      </button>
+                      <div className="jar">
+                        <div className="jar-lid"></div>
+                        <div 
+                          className="jar-body"
+                          style={{
+                            '--jar-color-light': jar.colorLight,
+                            '--jar-color-main': jar.colorMain,
+                            '--jar-color-dark': jar.colorDark
+                          }}
+                        >
+                          <div className="jar-inner-glow"></div>
+                          <div className="jar-edge-highlight"></div>
+                          <div className="jar-bottom-curve"></div>
+                          <div className={`jar-icon ${customImages[jar.id] ? 'has-custom-image' : ''}`}>
+                            {customImages[jar.id] ? (
+                              <img src={customImages[jar.id]} alt={jar.name} className="custom-image-icon" />
+                            ) : (
+                              jar.icon
+                            )}
+                          </div>
+                          <div className="jar-label-sticker">
+                            {jar.name}
+                          </div>
+                        </div>
+                        <div className="jar-shadow"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {selectedJar && currentAct && (
+            <div className="note-overlay" onClick={(e) => {
+              if (e.target.className === 'note-overlay') {
+                setSelectedJar(null);
+                setCurrentAct(null);
+                setIsAIGenerated(false);
+              }
+            }}>
+              <div className="note-card">
+                <div className="note-icon">{selectedJar.icon}</div>
+                <div className="note-category">{selectedJar.name}</div>
+                <div className="note-title">Your Act of Kindness</div>
+                <div className="note-text">{currentAct}</div>
+                <div className="note-buttons">
+                  <button className="note-button primary" onClick={handleComplete}>
+                    ✓ I Did It!
+                  </button>
+                  <button className="note-button secondary" onClick={() => {
+                    const randomAct = selectedJar.acts[Math.floor(Math.random() * selectedJar.acts.length)];
+                    setCurrentAct(randomAct);
+                    setIsAIGenerated(false);
+                  }}>
+                    ↻ Show Another
+                  </button>
+                  <button 
+                    className="note-button ai" 
+                    onClick={handleGenerateAI}
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? (
+                      <><span className="loading-spinner"></span>Getting New Act...</>
+                    ) : (
+                      '↻ Get Random Act'
+                    )}
+                  </button>
+                  <button className="note-button tertiary" onClick={() => {
+                    setSelectedJar(null);
+                    setCurrentAct(null);
+                    setIsAIGenerated(false);
+                  }}>
+                    ← Back
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showCelebration && (
+            <div className="completed-animation">
+              <div className="completed-check">✓</div>
+            </div>
+          )}
+
+          {showStats && (
+            <div className="note-overlay" onClick={(e) => {
+              if (e.target.className === 'note-overlay') setShowStats(false);
+            }}>
+              <div className="note-card" style={{ maxWidth: '650px' }}>
+                <div className="note-icon">📊</div>
+                <div className="note-category">YOUR IMPACT</div>
+                <div className="note-title">Kindness Analytics</div>
+                
+                {completedActs.length > 0 ? (
+                  <>
+                    {/* Tabs */}
+                    <div className="stats-tabs">
+                      <button 
+                        className={`stats-tab ${statsTab === 'overview' ? 'active' : ''}`}
+                        onClick={() => setStatsTab('overview')}
+                      >
+                        Overview
+                      </button>
+                      <button 
+                        className={`stats-tab ${statsTab === 'trends' ? 'active' : ''}`}
+                        onClick={() => setStatsTab('trends')}
+                      >
+                        Trends
+                      </button>
+                      <button 
+                        className={`stats-tab ${statsTab === 'insights' ? 'active' : ''}`}
+                        onClick={() => setStatsTab('insights')}
+                      >
+                        Insights
+                      </button>
+                    </div>
+
+                    {/* Overview Tab */}
+                    {statsTab === 'overview' && (
+                      <>
+                        {/* Key Stats Grid */}
+                        <div className="stats-grid">
+                          <div className="stat-card">
+                            <div className="stat-number">{completedActs.length}</div>
+                            <div className="stat-label">Total Acts</div>
+                          </div>
+                          <div className="stat-card green">
+                            <div className="stat-number">{calculateStreak()}</div>
+                            <div className="stat-label">Day Streak 🔥</div>
+                          </div>
+                          <div className="stat-card orange">
+                            <div className="stat-number">{getAveragePerDay()}</div>
+                            <div className="stat-label">Per Day Avg</div>
+                          </div>
+                          <div className="stat-card blue">
+                            <div className="stat-number">{[...new Set(completedActs.map(a => a.date))].length}</div>
+                            <div className="stat-label">Active Days</div>
+                          </div>
+                        </div>
+
+                        {/* Category Breakdown with Bar Chart */}
+                        <div className="stats-section">
+                          <div style={{ 
+                            fontSize: '0.9rem',
+                            fontWeight: '600',
+                            color: '#4A5568',
+                            marginBottom: '15px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                          }}>
+                            <span>📈</span> Acts by Category
+                          </div>
+                          {getCategoryBreakdown().map(({ jar, count }) => {
+                            const maxCount = Math.max(...getCategoryBreakdown().map(b => b.count));
+                            const percentage = (count / maxCount) * 100;
+                            
+                            return (
+                              <div key={jar.id} className="category-bar">
+                                <div className="category-bar-label">
+                                  {jar.icon} {jar.name}
+                                </div>
+                                <div className="category-bar-fill">
+                                  <div 
+                                    className="category-bar-value"
+                                    style={{ width: `${percentage}%` }}
+                                  >
+                                    {count}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Trends Tab */}
+                    {statsTab === 'trends' && (
+                      <>
+                        {/* Last 7 Days Chart */}
+                        <div className="stats-section">
+                          <div style={{ 
+                            fontSize: '0.9rem',
+                            fontWeight: '600',
+                            color: '#4A5568',
+                            marginBottom: '15px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                          }}>
+                            <span>📅</span> Last 7 Days Activity
+                          </div>
+                          <div className="day-chart">
+                            {getLast7Days().map(({ day, count, date }) => {
+                              const maxCount = Math.max(...getLast7Days().map(d => d.count), 1);
+                              const height = (count / maxCount) * 100;
+                              
+                              return (
+                                <div 
+                                  key={date}
+                                  className="day-bar"
+                                  style={{ height: `${height}%` }}
+                                  title={`${day}: ${count} acts`}
+                                >
+                                  {count > 0 && <div className="day-bar-count">{count}</div>}
+                                  <div className="day-bar-label">{day}</div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div style={{ height: '30px' }}></div>
+                        </div>
+
+                        {/* Best Day */}
+                        {getBestDayOfWeek() && (
+                          <div className="stats-section">
+                            <div style={{ 
+                              fontSize: '0.9rem',
+                              fontWeight: '600',
+                              color: '#4A5568',
+                              marginBottom: '15px',
+                              textTransform: 'uppercase',
+                              letterSpacing: '1px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <span>⭐</span> Your Most Active Day
+                            </div>
+                            <div style={{
+                              textAlign: 'center',
+                              padding: '20px',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              borderRadius: '12px',
+                              color: 'white'
+                            }}>
+                              <div style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '5px' }}>
+                                {getBestDayOfWeek().day}
+                              </div>
+                              <div style={{ fontSize: '1rem', opacity: 0.9 }}>
+                                {getBestDayOfWeek().count} acts completed on {getBestDayOfWeek().day}s
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Most Active Category */}
+                        {getMostActiveCategory() && (
+                          <div className="stats-section">
+                            <div style={{ 
+                              fontSize: '0.9rem',
+                              fontWeight: '600',
+                              color: '#4A5568',
+                              marginBottom: '15px',
+                              textTransform: 'uppercase',
+                              letterSpacing: '1px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <span>🏆</span> Your Focus Area
+                            </div>
+                            <div style={{
+                              textAlign: 'center',
+                              padding: '20px',
+                              background: 'linear-gradient(135deg, #48BB78 0%, #38A169 100%)',
+                              borderRadius: '12px',
+                              color: 'white'
+                            }}>
+                              <div style={{ fontSize: '3rem', marginBottom: '10px' }}>
+                                {getMostActiveCategory().jar.icon}
+                              </div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '5px' }}>
+                                {getMostActiveCategory().jar.name}
+                              </div>
+                              <div style={{ fontSize: '1rem', opacity: 0.9 }}>
+                                {getMostActiveCategory().count} acts in this category
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {/* Insights Tab */}
+                    {statsTab === 'insights' && (
+                      <>
+                        {getInsights().map((insight, index) => (
+                          <div 
+                            key={index}
+                            className={`insight-box ${insight.type}`}
+                            style={{ marginBottom: index < getInsights().length - 1 ? '15px' : '0' }}
+                          >
+                            <div className="insight-text">
+                              <span style={{ fontSize: '1.5rem', marginRight: '10px' }}>
+                                {insight.icon}
+                              </span>
+                              {insight.text}
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* Encouragement Message */}
+                        <div style={{
+                          marginTop: '20px',
+                          padding: '20px',
+                          background: 'linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%)',
+                          borderRadius: '12px',
+                          textAlign: 'center'
+                        }}>
+                          <div style={{ fontSize: '2rem', marginBottom: '10px' }}>💖</div>
+                          <div style={{ fontSize: '1.1rem', color: '#2D3748', lineHeight: '1.6' }}>
+                            You're making the world a better place, one kind act at a time. Keep spreading love!
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <div style={{ 
+                    fontSize: '1.1rem',
+                    color: '#718096',
+                    textAlign: 'center',
+                    padding: '40px 20px',
+                    lineHeight: '1.8'
+                  }}>
+                    <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🌱</div>
+                    <div style={{ marginBottom: '15px' }}>
+                      Your kindness journey starts here!
+                    </div>
+                    <div>
+                      Click any jar above to begin spreading love and watch your impact grow.
+                    </div>
+                  </div>
+                )}
+
+                <div className="note-buttons" style={{ marginTop: '25px' }}>
+                  <button className="note-button primary" onClick={() => setShowStats(false)}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showDonation && (
+            <div className="donation-modal" onClick={(e) => {
+              if (e.target.className === 'donation-modal') setShowDonation(false);
+            }}>
+              <div className="donation-content">
+                <h2 className="donation-title">Support Kindness Jar! 💖</h2>
+                <p className="donation-message">
+                  If this app brings joy to your life, consider supporting its development!
+                </p>
+                <div className="donation-options">
+                  {[3, 5, 10, 20].map(amount => (
+                    <div 
+                      key={amount}
+                      className={`donation-amount ${donationAmount === amount ? 'selected' : ''}`}
+                      onClick={() => setDonationAmount(amount)}
+                    >
+                      ${amount}
+                    </div>
+                  ))}
+                </div>
+                <input 
+                  type="number" 
+                  className="custom-amount"
+                  placeholder="Custom amount"
+                  value={donationAmount}
+                  onChange={(e) => setDonationAmount(Number(e.target.value))}
+                  min="1"
+                />
+                <div className="note-buttons">
+                  <button className="note-button primary" onClick={handleDonate}>
+                    💝 Donate ${donationAmount}
+                  </button>
+                  <button className="note-button tertiary" onClick={() => setShowDonation(false)}>
+                    Maybe Later
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {editingJar && (
+            <div className="edit-image-modal" onClick={(e) => {
+              if (e.target.className === 'edit-image-modal') handleCancelEdit();
+            }}>
+              <div className="edit-image-content">
+                <h2 className="donation-title">Customize {editingJar.name} Icon</h2>
+                <p className="image-info">
+                  Upload a photo to personalize this jar. Perfect for adding family photos!
+                </p>
+                <div className="edit-image-preview">
+                  {previewImage ? (
+                    <img src={previewImage} alt="Preview" />
+                  ) : customImages[editingJar.id] ? (
+                    <img src={customImages[editingJar.id]} alt="Current" />
+                  ) : (
+                    <span style={{ fontSize: '5rem' }}>{editingJar.icon}</span>
+                  )}
+                </div>
+                <input 
+                  type="file" 
+                  id="imageUpload"
+                  className="image-upload-input"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageUpload}
+                />
+                <label htmlFor="imageUpload" className="image-upload-label">
+                  📷 {customImages[editingJar.id] ? 'Change Photo' : 'Upload Photo'}
+                </label>
+                <div className="note-buttons">
+                  {previewImage && (
+                    <button className="note-button primary" onClick={handleSaveImage}>
+                      ✓ Save Photo
+                    </button>
+                  )}
+                  {customImages[editingJar.id] && (
+                    <button className="note-button secondary" onClick={handleRemoveImage}>
+                      🗑️ Remove Photo
+                    </button>
+                  )}
+                  <button className="note-button tertiary" onClick={handleCancelEdit}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
