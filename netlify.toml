@@ -1,0 +1,20 @@
+# Netlify Configuration for Kindness Jar Frontend
+
+[build]
+  # No build command needed for static HTML
+  publish = "."
+  
+[[redirects]]
+  from = "/*"
+  to = "/kindness-jar-realistic-glass.html"
+  status = 200
+  force = false
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
