@@ -10,16 +10,24 @@ const cors = require('cors');
 const app = express();
 
 // Middleware
-app.use(cors()); // Allow requests from your frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  credentials: true
+})); // Allow requests from your frontend
 app.use(express.json()); // Parse JSON bodies
 
 // Your website URL (change after deploying!)
-const YOUR_DOMAIN = 'http://localhost:8080'; // For local testing
-// When deployed to Netlify, change to: 'https://your-app.netlify.app'
+const YOUR_DOMAIN = process.env.FRONTEND_URL || 'http://localhost:8080';
+// When deployed to Netlify, set FRONTEND_URL environment variable to: 'https://your-app.netlify.app'
 
 // Health check endpoint
 app.get('/', (req, res) => {
-  res.send('Kindness Jar Payment Server is running! 🎉');
+  res.json({
+    status: 'running',
+    message: 'Kindness Jar Payment Server is running! 🎉',
+    environment: process.env.NODE_ENV || 'development',
+    frontendUrl: YOUR_DOMAIN
+  });
 });
 
 // Create checkout session endpoint
@@ -67,5 +75,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`💳 Ready to accept donations!`);
-  console.log(`📝 Don't forget to update YOUR_DOMAIN when deploying!`);
+  console.log(`🌍 Frontend URL: ${YOUR_DOMAIN}`);
+  console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

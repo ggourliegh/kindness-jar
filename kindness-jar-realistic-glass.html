@@ -1770,7 +1770,48 @@
       };
 
       const handleDonate = async () => {
-        alert('Donation feature coming soon! Thank you for your support! 💖');
+        try {
+          // Configuration - Update these values for your deployment
+          const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_PUBLISHABLE_KEY_HERE'; // Replace with your Stripe publishable key
+          const BACKEND_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : 'https://your-backend-url.onrender.com'; // Replace with your deployed backend URL
+          
+          // Initialize Stripe
+          const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+          
+          // Show loading state (you could update button text here if needed)
+          console.log('Creating checkout session...');
+          
+          // Call backend to create checkout session
+          const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount: donationAmount * 100, // Convert dollars to cents
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to create checkout session');
+          }
+
+          const session = await response.json();
+
+          // Redirect to Stripe Checkout
+          const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+          });
+
+          if (result.error) {
+            alert(result.error.message);
+          }
+        } catch (error) {
+          console.error('Payment error:', error);
+          alert('Something went wrong with the payment. Please try again or contact support.');
+        }
       };
 
       // Analytics Functions
