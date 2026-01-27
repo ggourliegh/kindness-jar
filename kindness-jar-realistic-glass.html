@@ -199,6 +199,57 @@
         margin-bottom: 60px;
       }
 
+      /* Hide the default shelf line in mobile */
+      .shelf::after,
+      .shelf::before {
+        display: none;
+      }
+
+      /* Add shelf after every 2nd jar (every row) in mobile */
+      .jar-item:nth-child(2n)::after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: -150%;
+        width: 320%;
+        height: 18px;
+        background: linear-gradient(180deg,
+            #A68968 0%,
+            #9D7E5E 10%,
+            #8B6F4E 50%,
+            #7D6344 90%,
+            #6B533A 100%);
+        border-radius: 6px;
+        box-shadow:
+          0 8px 16px rgba(0, 0, 0, 0.3),
+          inset 0 2px 4px rgba(255, 255, 255, 0.2),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+        z-index: -1;
+      }
+
+      /* Wood grain effect for mobile shelves */
+      .jar-item:nth-child(2n)::before {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: -150%;
+        width: 320%;
+        height: 18px;
+        background-image:
+          repeating-linear-gradient(90deg,
+            transparent,
+            transparent 60px,
+            rgba(0, 0, 0, 0.05) 60px,
+            rgba(0, 0, 0, 0.05) 61px);
+        z-index: -1;
+        border-radius: 6px;
+      }
+
+      /* Add extra margin to jar items to accommodate shelves */
+      .jar-item {
+        margin-bottom: 50px;
+      }
+
       .jar-container {
         max-width: 140px;
       }
