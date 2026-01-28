@@ -1809,6 +1809,65 @@
       }
     ];
 
+    // Theme Configurations
+    const THEMES = {
+      classic: {
+        name: 'Classic',
+        colors: {
+          background: 'linear-gradient(135deg, #E0F2FE 0%, #FFF5F0 50%, #FFE4E6 100%)',
+          title: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
+          subtitle: '#64748B',
+          buttonBg: 'rgba(255, 255, 255, 0.9)',
+          buttonHover: 'white'
+        },
+        messaging: {
+          title: 'KINDNESS JAR!',
+          subtitle: 'Spread Love & Joy Every Single Day!',
+          completePrefix: '',
+          completeSuffix: ' ✨'
+        }
+      },
+      dude: {
+        name: 'Dude Mode',
+        colors: {
+          background: 'linear-gradient(135deg, #1E293B 0%, #334155 50%, #475569 100%)',
+          title: 'linear-gradient(135deg, #F97316 0%, #EF4444 100%)',
+          subtitle: '#94A3B8',
+          buttonBg: 'rgba(30, 41, 59, 0.8)',
+          buttonHover: 'rgba(30, 41, 59, 0.95)'
+        },
+        messaging: {
+          title: 'BRO CODE JAR',
+          subtitle: 'Level Up Your Kindness Game, Dude!',
+          completePrefix: 'Nice one, bro! ',
+          completeSuffix: ' 🤙'
+        },
+        altGreetings: [
+          "Yo dude, you done some good for {target} today?",
+          "Bro, when's the last time you showed {target} some love?",
+          "Hey man, {target} could use your kindness today!",
+          "Dude, step up and do something awesome for {target}!",
+          "Real men show kindness - what you got for {target}?"
+        ]
+      },
+      neutral: {
+        name: 'Neutral',
+        colors: {
+          background: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #CBD5E1 100%)',
+          title: 'linear-gradient(135deg, #0F172A 0%, #334155 100%)',
+          subtitle: '#475569',
+          buttonBg: 'rgba(255, 255, 255, 0.95)',
+          buttonHover: 'white'
+        },
+        messaging: {
+          title: 'KINDNESS CHALLENGE',
+          subtitle: 'Make Every Day Count with Small Acts',
+          completePrefix: 'Well done! ',
+          completeSuffix: ' ✓'
+        }
+      }
+    };
+
     function App() {
       const [selectedJar, setSelectedJar] = useState(null);
       const [currentAct, setCurrentAct] = useState(null);
@@ -1827,6 +1886,7 @@
       const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
       const [deferredPrompt, setDeferredPrompt] = useState(null);
       const [showInstallButton, setShowInstallButton] = useState(false);
+      const [currentTheme, setCurrentTheme] = useState('classic');
 
       // Detect mobile viewport changes
       useEffect(() => {
@@ -1855,6 +1915,22 @@
           window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
       }, []);
+
+      // Load saved theme
+      useEffect(() => {
+        const savedTheme = localStorage.getItem('kindnessJar_theme');
+        if (savedTheme && THEMES[savedTheme]) {
+          setCurrentTheme(savedTheme);
+        }
+      }, []);
+
+      // Save theme when changed
+      useEffect(() => {
+        localStorage.setItem('kindnessJar_theme', currentTheme);
+        // Apply theme colors to body
+        const theme = THEMES[currentTheme];
+        document.body.style.background = theme.colors.background;
+      }, [currentTheme]);
 
       useEffect(() => {
         const saved = localStorage.getItem('kindnessJar_completedActs');
@@ -2323,11 +2399,38 @@
         return elements;
       };
 
+      const theme = THEMES[currentTheme];
+
       return (
         <div className="app-container">
           <div className="app-header">
-            <h1 className="app-title">KINDNESS JAR!</h1>
-            <p className="app-subtitle">Spread Love & Joy Every Single Day!</p>
+            <h1 className="app-title" style={{background: theme.colors.title, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'}}>{theme.messaging.title}</h1>
+            <p className="app-subtitle" style={{color: theme.colors.subtitle}}>{theme.messaging.subtitle}</p>
+
+            {/* Theme Selector */}
+            <div style={{marginBottom: '20px'}}>
+              <select
+                value={currentTheme}
+                onChange={(e) => setCurrentTheme(e.target.value)}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '25px',
+                  border: '2px solid rgba(255,255,255,0.3)',
+                  background: theme.colors.buttonBg,
+                  color: '#4A5568',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  fontFamily: 'Poppins, sans-serif'
+                }}
+              >
+                <option value="classic">🌸 Classic</option>
+                <option value="dude">🤙 Dude Mode</option>
+                <option value="neutral">⚡ Neutral</option>
+              </select>
+            </div>
+
             <div className="button-row">
               {showInstallButton && (
                 <button className="header-button install" onClick={handleInstallClick}>
