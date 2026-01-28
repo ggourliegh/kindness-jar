@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bee Kind - Icon Options</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      font-size: 1.2rem;
+      margin-bottom: 50px;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .icon-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .icon-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    }
+
+    .icon-wrapper {
+      width: 100%;
+      aspect-ratio: 1/1;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .icon-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .icon-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .icon-description {
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .preview-sizes {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding-top: 15px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .size-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .size-preview img {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .size-label {
+      font-size: 0.75rem;
+      color: #999;
+      font-weight: 600;
+    }
+
+    .instructions {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      margin-top: 40px;
+    }
+
+    .instructions h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .instructions p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .instructions code {
+      background: #f5f5f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #d63384;
+    }
+
+    .vote-section {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .vote-button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .vote-button:hover {
+      transform: scale(1.05);
+    }
+
+    .vote-button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐝 Bee Kind - Icon Options 🐝</h1>
+    <p class="subtitle">Choose your favorite icon design for the PWA app!</p>
+
+    <div class="icon-grid">
+      <!-- Option 1 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="icons/bee-kind-option1.svg" alt="Bee Kind Option 1">
+        </div>
+        <h3 class="icon-title">Option 1: Flight Path</h3>
+        <p class="icon-description">
+          Features a cute bee with a dotted flight path trail. Simple and clean design with "BEE KIND" text in bold letters. Great visibility at all sizes.
+        </p>
+        <div class="preview-sizes">
+          <div class="size-preview">
+            <img src="icons/bee-kind-option1.svg" width="48" height="48" alt="48x48">
+            <span class="size-label">48px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option1.svg" width="96" height="96" alt="96x96">
+            <span class="size-label">96px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option1.svg" width="192" height="192" alt="192x192">
+            <span class="size-label">192px</span>
+          </div>
+        </div>
+        <div class="vote-section">
+          <button class="vote-button" onclick="selectIcon(1)">✨ Choose This Icon</button>
+        </div>
+      </div>
+
+      <!-- Option 2 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="icons/bee-kind-option2.svg" alt="Bee Kind Option 2">
+        </div>
+        <h3 class="icon-title">Option 2: Spelling Bee</h3>
+        <p class="icon-description">
+          Bee with a speech bubble saying "BEE KIND!" and letters K-I-N-D scattered along the flight path. Playful "spelling bee" concept with heart background.
+        </p>
+        <div class="preview-sizes">
+          <div class="size-preview">
+            <img src="icons/bee-kind-option2.svg" width="48" height="48" alt="48x48">
+            <span class="size-label">48px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option2.svg" width="96" height="96" alt="96x96">
+            <span class="size-label">96px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option2.svg" width="192" height="192" alt="192x192">
+            <span class="size-label">192px</span>
+          </div>
+        </div>
+        <div class="vote-section">
+          <button class="vote-button" onclick="selectIcon(2)">✨ Choose This Icon</button>
+        </div>
+      </div>
+
+      <!-- Option 3 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="icons/bee-kind-option3.svg" alt="Bee Kind Option 3">
+        </div>
+        <h3 class="icon-title">Option 3: Heart Trail</h3>
+        <p class="icon-description">
+          Large friendly bee with heart-shaped flight path. Features detailed wings, big eyes, and decorative hearts. Warm gradient background with "Bee Kind" in script font.
+        </p>
+        <div class="preview-sizes">
+          <div class="size-preview">
+            <img src="icons/bee-kind-option3.svg" width="48" height="48" alt="48x48">
+            <span class="size-label">48px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option3.svg" width="96" height="96" alt="96x96">
+            <span class="size-label">96px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option3.svg" width="192" height="192" alt="192x192">
+            <span class="size-label">192px</span>
+          </div>
+        </div>
+        <div class="vote-section">
+          <button class="vote-button" onclick="selectIcon(3)">✨ Choose This Icon</button>
+        </div>
+      </div>
+
+      <!-- Option 4 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="icons/bee-kind-option4.svg" alt="Bee Kind Option 4">
+        </div>
+        <h3 class="icon-title">Option 4: Kawaii Bee</h3>
+        <p class="icon-description">
+          Super cute kawaii-style bee with big eyes and blush. Bold "BEE KIND" text in modern font. Sunset gradient background with zigzag dotted trail. Most modern and clean design.
+        </p>
+        <div class="preview-sizes">
+          <div class="size-preview">
+            <img src="icons/bee-kind-option4.svg" width="48" height="48" alt="48x48">
+            <span class="size-label">48px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option4.svg" width="96" height="96" alt="96x96">
+            <span class="size-label">96px</span>
+          </div>
+          <div class="size-preview">
+            <img src="icons/bee-kind-option4.svg" width="192" height="192" alt="192x192">
+            <span class="size-label">192px</span>
+          </div>
+        </div>
+        <div class="vote-section">
+          <button class="vote-button" onclick="selectIcon(4)">✨ Choose This Icon</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h2>📋 Next Steps</h2>
+      <p><strong>1. Choose your favorite icon</strong> from the options above.</p>
+      <p><strong>2. Tell me which option you prefer</strong> (e.g., "I like Option 3" or "Use Option 4").</p>
+      <p><strong>3. I'll generate PNG files</strong> from your chosen SVG in the required sizes:</p>
+      <ul style="color: #666; margin-left: 30px; line-height: 2;">
+        <li><code>icon-192x192.png</code> - For Android and PWA</li>
+        <li><code>icon-512x512.png</code> - For larger displays</li>
+        <li><code>apple-touch-icon.png</code> - For iOS devices</li>
+      </ul>
+      <p style="margin-top: 20px;"><strong>4. I'll update the manifest</strong> to use your chosen icon.</p>
+      <p><strong>5. Your app will have a professional bee-themed icon!</strong> 🐝✨</p>
+    </div>
+  </div>
+
+  <script>
+    function selectIcon(optionNumber) {
+      alert(`Great choice! You selected Option ${optionNumber}.\n\nPlease tell Claude: "I choose Option ${optionNumber}" and I'll generate the PNG files for you!`);
+    }
+  </script>
+</body>
+</html>

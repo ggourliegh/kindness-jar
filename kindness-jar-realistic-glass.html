@@ -56,12 +56,7 @@
 
     .app-header {
       text-align: center;
-      padding: 30px 20px 40px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 0 0 40px;
     }
 
     .app-title {
@@ -75,7 +70,31 @@
       letter-spacing: 2px;
       margin-bottom: 8px;
       text-transform: none;
-      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+      filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Decorative swirls before title */
+    .app-title::before {
+      content: '✨';
+      position: absolute;
+      left: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      opacity: 0.7;
+    }
+
+    /* Decorative swirls after title */
+    .app-title::after {
+      content: '✨';
+      position: absolute;
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      opacity: 0.7;
     }
 
     .app-subtitle {
@@ -84,6 +103,7 @@
       color: #718096;
       font-weight: 700;
       margin-bottom: 30px;
+      filter: drop-shadow(1px 1px 2px rgba(255, 255, 255, 0.8));
     }
 
     .button-row {

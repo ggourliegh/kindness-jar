@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#FFD93D"/>
+
+  <!-- Bee flight path (dotted trail) -->
+  <path d="M 100,400 Q 150,250 200,300 T 300,200 T 400,250"
+        stroke="#8B6914"
+        stroke-width="6"
+        stroke-dasharray="8,12"
+        fill="none"
+        opacity="0.4"/>
+
+  <!-- Bee body -->
+  <ellipse cx="280" cy="200" rx="45" ry="60" fill="#FFB300"/>
+
+  <!-- Bee stripes -->
+  <ellipse cx="280" cy="180" rx="45" ry="15" fill="#2C1810"/>
+  <ellipse cx="280" cy="210" rx="45" ry="15" fill="#2C1810"/>
+
+  <!-- Bee head -->
+  <circle cx="280" cy="155" r="30" fill="#FFB300"/>
+
+  <!-- Antennae -->
+  <line x1="270" y1="135" x2="260" y2="115" stroke="#2C1810" stroke-width="4" stroke-linecap="round"/>
+  <line x1="290" y1="135" x2="300" y2="115" stroke="#2C1810" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="260" cy="115" r="6" fill="#2C1810"/>
+  <circle cx="300" cy="115" r="6" fill="#2C1810"/>
+
+  <!-- Eyes -->
+  <circle cx="270" cy="155" r="6" fill="#2C1810"/>
+  <circle cx="290" cy="155" r="6" fill="#2C1810"/>
+  <circle cx="272" cy="153" r="2" fill="white"/>
+  <circle cx="292" cy="153" r="2" fill="white"/>
+
+  <!-- Smile -->
+  <path d="M 270,165 Q 280,172 290,165" stroke="#2C1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Wings (translucent) -->
+  <ellipse cx="260" cy="180" rx="35" ry="50" fill="white" opacity="0.7" transform="rotate(-25 260 180)"/>
+  <ellipse cx="300" cy="180" rx="35" ry="50" fill="white" opacity="0.7" transform="rotate(25 300 180)"/>
+
+  <!-- Wing details -->
+  <ellipse cx="260" cy="180" rx="30" ry="45" fill="none" stroke="#A0A0A0" stroke-width="1.5" transform="rotate(-25 260 180)"/>
+  <ellipse cx="300" cy="180" rx="30" ry="45" fill="none" stroke="#A0A0A0" stroke-width="1.5" transform="rotate(25 300 180)"/>
+
+  <!-- "BEE KIND" text -->
+  <text x="256" y="380" font-family="'Poppins', 'Arial', sans-serif" font-size="65" font-weight="bold" fill="#2C1810" text-anchor="middle">BEE</text>
+  <text x="256" y="440" font-family="'Poppins', 'Arial', sans-serif" font-size="65" font-weight="bold" fill="#FF6B6B" text-anchor="middle">KIND</text>
+</svg>
