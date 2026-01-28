@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- iOS-style gradient background -->
+    <linearGradient id="iosBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFDD57;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB142;stop-opacity:1" />
+    </linearGradient>
+    <!-- Glossy bee body -->
+    <radialGradient id="glossyBee" cx="40%" cy="30%">
+      <stop offset="0%" style="stop-color:#FFD54F;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FFB300;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8F00;stop-opacity:1" />
+    </radialGradient>
+    <!-- Glass effect -->
+    <radialGradient id="glassShine" cx="30%" cy="30%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+    <!-- Drop shadow filter -->
+    <filter id="softShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="3" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.25"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background with iOS corner radius -->
+  <rect width="512" height="512" rx="115" ry="115" fill="url(#iosBg)"/>
+
+  <!-- Glass overlay effect on entire icon -->
+  <rect width="512" height="512" rx="115" ry="115" fill="url(#glassShine)"/>
+
+  <!-- Modern bee with glossy effect -->
+  <g transform="translate(256, 220)" filter="url(#softShadow)">
+    <!-- Body with glossy gradient -->
+    <ellipse cx="0" cy="0" rx="70" ry="95" fill="url(#glossyBee)"/>
+
+    <!-- Glossy highlights on body -->
+    <ellipse cx="-15" cy="-25" rx="25" ry="35" fill="white" opacity="0.3"/>
+
+    <!-- Smooth black stripes with slight gradient -->
+    <ellipse cx="0" cy="-25" rx="70" ry="18" fill="#1A1A1A" opacity="0.85"/>
+    <ellipse cx="0" cy="20" rx="70" ry="18" fill="#1A1A1A" opacity="0.85"/>
+
+    <!-- Head with glossy effect -->
+    <circle cx="0" cy="-80" r="50" fill="url(#glossyBee)"/>
+    <circle cx="-12" cy="-90" r="18" fill="white" opacity="0.3"/>
+
+    <!-- Modern antennae -->
+    <g stroke="#1A1A1A" stroke-width="5" stroke-linecap="round" opacity="0.9">
+      <path d="M -18,-115 Q -20,-125 -18,-135"/>
+      <path d="M 18,-115 Q 20,-125 18,-135"/>
+    </g>
+    <circle cx="-18" cy="-135" r="9" fill="#FFB142"/>
+    <circle cx="18" cy="-135" r="9" fill="#FFB142"/>
+
+    <!-- Large friendly eyes -->
+    <circle cx="-18" cy="-80" r="12" fill="white"/>
+    <circle cx="18" cy="-80" r="12" fill="white"/>
+    <circle cx="-18" cy="-79" r="9" fill="#1A1A1A"/>
+    <circle cx="18" cy="-79" r="9" fill="#1A1A1A"/>
+    <circle cx="-16" cy="-82" r="5" fill="white"/>
+    <circle cx="20" cy="-82" r="5" fill="white"/>
+
+    <!-- Gentle smile -->
+    <path d="M -22,-60 Q 0,-52 22,-60" stroke="#1A1A1A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>
+
+    <!-- Glossy wings with transparency -->
+    <g opacity="0.9">
+      <ellipse cx="-60" cy="-15" rx="48" ry="80" fill="white" opacity="0.75" transform="rotate(-28 -60 -15)"/>
+      <ellipse cx="60" cy="-15" rx="48" ry="80" fill="white" opacity="0.75" transform="rotate(28 60 -15)"/>
+      <!-- Wing highlights -->
+      <ellipse cx="-65" cy="-30" rx="20" ry="35" fill="white" opacity="0.5" transform="rotate(-28 -65 -30)"/>
+      <ellipse cx="65" cy="-30" rx="20" ry="35" fill="white" opacity="0.5" transform="rotate(28 65 -30)"/>
+    </g>
+  </g>
+
+  <!-- Modern sans-serif text with subtle shadow -->
+  <g filter="url(#softShadow)">
+    <text x="256" y="445" font-family="'SF Pro Rounded', 'Avenir Next', 'Segoe UI', sans-serif" font-size="64" font-weight="700" fill="white" text-anchor="middle" letter-spacing="1">BEE KIND</text>
+  </g>
+</svg>
