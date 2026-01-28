@@ -1894,27 +1894,96 @@
           completeSuffix: ' 🔥🤙'
         },
         transformAct: (act) => {
-          // Add Kiwi male slang
-          const kiwiStarters = [
-            "Mate, ",
-            "Bro, ",
-            "Chur bro: ",
-            "Oi mate, ",
-            "Listen up legend: ",
-            "Ay bro, ",
-            "Sweet as - "
-          ];
-          const kiwiEnders = [
-            ", choice!",
-            ", legend!",
-            " - sweet as!",
-            ", mate!",
-            " - she'll be right!",
-            ", chur!"
-          ];
-          const starter = kiwiStarters[Math.floor(Math.random() * kiwiStarters.length)];
-          const ender = kiwiEnders[Math.floor(Math.random() * kiwiEnders.length)];
-          return starter + act.toLowerCase() + ender;
+          // Contextual Kiwi slang based on act content
+          const actLower = act.toLowerCase();
+
+          // Detect context from keywords
+          const isFamily = /family|dad|mum|parent|kid|child|wife|husband|partner/.test(actLower);
+          const isFriend = /friend|mate|buddy|pal/.test(actLower);
+          const isWork = /work|colleague|boss|coworker|team/.test(actLower);
+          const isHelp = /help|assist|support|lend/.test(actLower);
+          const isComm = /text|call|message|ring|chat|talk/.test(actLower);
+          const isGift = /gift|buy|treat|surprise/.test(actLower);
+          const isAction = /do |make |fix |clean |cook |build/.test(actLower);
+
+          // Context-specific slang patterns
+          let patterns = [];
+
+          if (isFamily) {
+            patterns = [
+              `Oi mate, {act} - family first, bro!`,
+              `Listen up: {act}. Your whanau needs you, legend!`,
+              `Chur bro, {act} - that's what family's for!`,
+              `Ay bro: {act}. Look after your mob, mate!`,
+              `Mate, {act} - show your lot some love!`
+            ];
+          } else if (isFriend) {
+            patterns = [
+              `Bro, {act} - mates look out for mates, eh!`,
+              `Chur: {act}, legend! Good mates are choice!`,
+              `Oi, {act} - that's what bros are for!`,
+              `Mate: {act}. Solid gold friendship right there!`,
+              `Ay bro, {act} - your mates will appreciate that!`
+            ];
+          } else if (isWork) {
+            patterns = [
+              `Listen legend: {act}. Team work makes the dream work!`,
+              `Bro, {act} - be a good team player, eh!`,
+              `Mate: {act}. Help out your work mates!`,
+              `Chur: {act} - that's how you earn respect at work!`,
+              `Oi: {act}, it'll make work heaps better!`
+            ];
+          } else if (isHelp) {
+            patterns = [
+              `Mate, {act} - lend a hand, that's the Kiwi way!`,
+              `Bro: {act}. She'll be right, just help out!`,
+              `Chur bro, {act} - be a legend and pitch in!`,
+              `Ay mate: {act}. Everyone needs help sometimes!`,
+              `Oi: {act} - that's being a good bugger!`
+            ];
+          } else if (isComm) {
+            patterns = [
+              `Bro: {act} - stay connected, mate!`,
+              `Chur: {act}. Reach out, it means heaps!`,
+              `Mate, {act} - keep in touch, legend!`,
+              `Oi: {act}, they'll appreciate hearing from you!`,
+              `Ay bro: {act} - communication is key!`
+            ];
+          } else if (isGift) {
+            patterns = [
+              `Mate: {act} - show some aroha, bro!`,
+              `Chur: {act}. Thoughtful gifts are choice!`,
+              `Bro, {act} - spread the love!`,
+              `Oi: {act}, mate! Everyone loves a good surprise!`,
+              `Legend: {act} - that's being generous!`
+            ];
+          } else if (isAction) {
+            patterns = [
+              `Mate: {act} - get stuck in and do it!`,
+              `Bro, {act} - action speaks louder than words!`,
+              `Chur: {act}. Just do it, no worries!`,
+              `Ay: {act} - that's taking initiative, legend!`,
+              `Oi mate: {act}, she'll be right!`
+            ];
+          } else {
+            // General varied patterns
+            patterns = [
+              `Mate, {act} - good on ya!`,
+              `Bro: {act}. Too easy!`,
+              `Chur bro: {act}, legend!`,
+              `Oi mate, {act} - sweet as!`,
+              `Listen up: {act} - that's choice!`,
+              `Ay bro, {act} - you beauty!`,
+              `Mate: {act}. Mint!`,
+              `Bro, {act} - hard case!`,
+              `Chur: {act}, that's the ticket!`,
+              `Oi: {act} - she'll be right!`
+            ];
+          }
+
+          // Pick random pattern and replace {act}
+          const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+          return pattern.replace('{act}', actLower);
         }
       },
       gay: {
