@@ -424,3 +424,146 @@ git push origin feature/stripe-integration
 ---
 
 *This document serves as the single source of truth for project progress. Update after each significant milestone or session.*
+
+---
+
+### Session: 2026-01-28 Part 2 (Theme Customization)
+**Duration:** In progress
+**Focus:** Add theme options for different user preferences
+
+**User Request:**
+- App feels too feminine
+- Want options to change look and feel
+- Need "Dude Mode" with cheeky masculine messaging (updated to Kiwi slang)
+- Add "full on gay mode" with super gay language
+- Add Goth Mode
+- Fix visibility issues with title and dropdown colors
+- Must not break existing functionality
+- Create as new version for easy rollback
+
+**What We've Built:**
+1. ✅ Created feature branch (feature/theme-customization)
+2. ✅ Added THEMES configuration with 5 options:
+   - **Classic**: Original feminine style (default)
+   - **Dude Mode**: Kiwi male slang ("BRO CODE", dark colors, "mate", "chur", "sweet as")
+   - **Fabulous Mode**: Super gay/fabulous ("YAAS QUEEN", rainbow gradients, "hunty", "slay")
+   - **Goth Mode**: Dark aesthetic ("DARKNESS & KINDNESS", black/purple/red, gothic fonts, poetic dark language)
+   - **Neutral**: Balanced professional option
+3. ✅ Added theme selector dropdown in header
+4. ✅ Theme persistence with localStorage
+5. ✅ Dynamic title/subtitle per theme
+6. ✅ Background gradient changes per theme
+7. ✅ Act text transformation per theme with personality
+8. ✅ Fixed dropdown visibility (white background on options, proper text contrast)
+9. ✅ Added semi-transparent background to header for better title readability
+10. ✅ All themes have proper selectText color for dropdown contrast
+
+**Theme Details:**
+
+**Classic:**
+- Title: "KINDNESS JAR!"
+- Subtitle: "Spread Love & Joy Every Single Day!"
+- Colors: Purple/pink gradients, light pastel backgrounds
+- Tone: Warm, feminine, encouraging
+- Acts: Original wording
+
+**Dude Mode (Kiwi Slang):**
+- Title: "🤙 BRO CODE 🤙"
+- Subtitle: "Real Kiwi Blokes Do Kind Stuff. Choice!"
+- Colors: Dark slate/navy backgrounds, orange titles, Impact font
+- Tone: Kiwi masculine, mate culture
+- Acts: "Mate, [act], legend!" or "Chur bro: [act], sweet as!" or "Oi mate, [act], chur!"
+
+**Fabulous Mode:**
+- Title: "✨ YAAS QUEEN! ✨"
+- Subtitle: "Serving Kindness Realness, Hunty!"
+- Colors: Rainbow gradient background, gold/pink/purple titles, Pacifico font
+- Tone: Fabulous, gay, fierce
+- Acts: "Hunty, [act], and make it FIERCE!" or "Yaaas queen! [act] - serving LOOKS!"
+
+**Goth Mode:**
+- Title: "🦇 DARKNESS & KINDNESS 🦇"
+- Subtitle: "Embrace the Light Within the Shadows..."
+- Colors: Deep black/purple gradients, blood red/indigo titles, Georgia serif font
+- Tone: Gothic, poetic, dark but kind
+- Acts: "In the darkness, [act]...and find light in the void." or "Dark one, [act] - beauty blooms in shadows."
+
+**Neutral:**
+- Title: "KINDNESS CHALLENGE"
+- Subtitle: "Make Every Day Count with Small Acts"
+- Colors: Clean grays, professional
+- Tone: Balanced, motivational
+- Acts: Original wording
+
+**Rollback Plan:**
+- Feature on separate branch (feature/theme-customization)
+- Main branch untouched
+- Easy rollback: `git checkout main`
+- Can cherry-pick specific commits if needed
+
+**Files Modified:**
+- kindness-jar-realistic-glass.html (+150 lines total)
+
+**Commits:**
+- b383eb7 - Initial theme implementation (Classic, Dude, Fabulous, Neutral)
+- e3d4c1a - Enhanced themes with personality transformations
+- 6d75643 - Kiwi slang, Goth Mode, visibility fixes
+- e374c5e - Removed solid header background, added bee-themed PWA icons (4 options)
+- bc7e818 - Fixed header visibility with translucent background + 4 modern bee icons
+- fb809eb - Enhanced jar realism to match reference image (photo-realistic glass)
+- 854c682 - Contextual intelligent Kiwi slang system (40+ unique combinations)
+
+**Latest Updates (2026-01-28 Part 3):**
+
+1. ✅ **Header Visibility Fix:**
+   - Added semi-transparent white background with glassmorphism effect
+   - Title now visible on ALL theme backgrounds (Dude, Goth, Fabulous, etc.)
+   - Maintains clean modern look with blur and border
+
+2. ✅ **Modern Bee Icons Created (4 professional options):**
+   - bee-modern-1.svg: Clean gradient flat design
+   - bee-modern-2.svg: Card-based with vibrant gradient background
+   - bee-modern-3.svg: iOS-style glossy with glass effects (most realistic)
+   - bee-modern-4.svg: Material Design geometric with long shadow
+
+3. ✅ **Ultra-Realistic Jar Enhancement:**
+   - **Brighter glossy highlights** matching reference image
+   - **Enhanced glass transparency** with better gradient flow
+   - **Stronger shadows** underneath jars (darker, larger, professional)
+   - **Improved metallic lids** with lighter gold/bronze tones
+   - **Better edge highlighting** with multi-layer glass thickness effect
+   - **Photo-realistic appearance** matching user's reference image
+
+4. ✅ **Contextual Intelligent Slang System:**
+   - **Detects act content** using keyword matching
+   - **7 context categories:** family, friends, work, help, communication, gifts, actions
+   - **5+ unique patterns per context** (total 40+ combinations)
+   - **Examples:**
+     - Family: "Listen up: [act]. Your whanau needs you, legend!"
+     - Friends: "Bro, [act] - mates look out for mates, eh!"
+     - Work: "Chur: [act] - that's how you earn respect at work!"
+   - **No more repetition!** Each act gets contextually appropriate slang
+
+**Icon Files Created:**
+- icons/bee-kind-option1-4.svg (first set - playful designs)
+- icons/bee-modern-1-4.svg (second set - professional modern app icons)
+- bee-icon-preview.html (view at: http://localhost:8080/bee-icon-preview.html)
+
+**Next Steps:**
+1. User to test enhanced jars and contextual slang
+2. User to choose preferred modern bee icon
+3. Optional: Modernize jar icons (user request pending)
+4. Generate PNG files from chosen bee icon
+5. Test on mobile devices
+6. Decide: Merge to main or continue refining
+7. If merging: Commit to main, then merge to feature/stripe-integration for deployment
+
+**Rollback Points:**
+- Current: 854c682 (contextual slang system)
+- Previous: fb809eb (jar realism enhancement)
+- Previous: bc7e818 (header fix + modern icons)
+- Previous: e374c5e (first bee icons)
+- Previous: 6d75643 (Goth mode + Kiwi slang)
+- Original: b383eb7 (first theme implementation)
+- **Main branch: UNCHANGED - easy full rollback**
+
