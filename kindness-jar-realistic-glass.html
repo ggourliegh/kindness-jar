@@ -421,19 +421,20 @@
       height: 13%;
       background:
         linear-gradient(180deg,
-          #D4BFA8 0%,
-          #C9B197 15%,
-          #B39F86 30%,
-          #A08D74 50%,
-          #8B7A61 70%,
-          #7D6B53 85%,
-          #6F5E45 100%);
+          #E8D4BA 0%,
+          #D4BFA8 10%,
+          #C9B197 25%,
+          #B39F86 40%,
+          #A08D74 60%,
+          #8B7A61 80%,
+          #7D6B53 100%);
       border-radius: 10px 10px 3px 3px;
       z-index: 5;
       box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.4),
-        inset 0 2px 3px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+        0 5px 12px rgba(0, 0, 0, 0.5),
+        inset 0 3px 6px rgba(255, 255, 255, 0.6),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.5),
+        0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     /* Lid threading ridges */
@@ -475,7 +476,7 @@
         inset 0 1px 2px rgba(255, 255, 255, 0.5);
     }
 
-    /* Super realistic glass jar body with transparency */
+    /* Super realistic glass jar body with transparency (ENHANCED) */
     .jar-body {
       position: absolute;
       top: 11%;
@@ -486,35 +487,38 @@
       background:
         linear-gradient(135deg,
           var(--jar-color-light) 0%,
-          var(--jar-color-main) 45%,
+          var(--jar-color-main) 40%,
+          var(--jar-color-main) 60%,
           var(--jar-color-dark) 100%);
-      border-radius: 14px 14px 22px 22px;
+      border-radius: 14px 14px 24px 24px;
       z-index: 2;
       box-shadow:
-        inset -8px -8px 20px rgba(0, 0, 0, 0.2),
-        inset 8px 8px 20px rgba(255, 255, 255, 0.6),
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.5);
+        inset -10px -10px 25px rgba(0, 0, 0, 0.25),
+        inset 10px 10px 25px rgba(255, 255, 255, 0.7),
+        0 25px 50px rgba(0, 0, 0, 0.35),
+        0 0 0 1.5px rgba(255, 255, 255, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.2);
       position: relative;
       overflow: hidden;
     }
 
-    /* Primary highlight - left side shine */
+    /* Primary highlight - left side shine (ENHANCED for realism) */
     .jar-body::before {
       content: '';
       position: absolute;
-      top: 8%;
-      left: 8%;
-      width: 42%;
-      height: 60%;
+      top: 5%;
+      left: 5%;
+      width: 45%;
+      height: 70%;
       background:
-        linear-gradient(145deg,
-          rgba(255, 255, 255, 0.85) 0%,
-          rgba(255, 255, 255, 0.5) 35%,
-          rgba(255, 255, 255, 0.2) 60%,
+        linear-gradient(140deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(255, 255, 255, 0.75) 25%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0.15) 75%,
           transparent 100%);
       border-radius: 50%;
-      filter: blur(12px);
+      filter: blur(10px);
       z-index: 3;
     }
 
@@ -550,18 +554,20 @@
       z-index: 1;
     }
 
-    /* Glass thickness edge effect */
+    /* Glass thickness edge effect (ENHANCED for photo-realism) */
     .jar-edge-highlight {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      border-radius: 14px 14px 22px 22px;
+      border-radius: 14px 14px 24px 24px;
       box-shadow:
-        inset 0 0 0 2px rgba(255, 255, 255, 0.6),
-        inset 3px 3px 8px rgba(255, 255, 255, 0.4);
+        inset 0 0 0 2.5px rgba(255, 255, 255, 0.75),
+        inset 4px 4px 12px rgba(255, 255, 255, 0.55),
+        inset -2px -2px 10px rgba(0, 0, 0, 0.15);
       z-index: 4;
+      pointer-events: none;
     }
 
     /* Bottom glass curve highlight */
@@ -633,20 +639,21 @@
       }
     }
 
-    /* Shadow under jar on shelf */
+    /* Shadow under jar on shelf (ENHANCED for photo-realism) */
     .jar-shadow {
       position: absolute;
       bottom: -18px;
       left: 50%;
       transform: translateX(-50%);
-      width: 75%;
-      height: 12px;
+      width: 80%;
+      height: 15px;
       background: radial-gradient(ellipse at 50% 50%,
-          rgba(0, 0, 0, 0.3) 0%,
-          rgba(0, 0, 0, 0.15) 50%,
+          rgba(0, 0, 0, 0.45) 0%,
+          rgba(0, 0, 0, 0.25) 40%,
+          rgba(0, 0, 0, 0.1) 70%,
           transparent 100%);
       border-radius: 50%;
-      filter: blur(6px);
+      filter: blur(8px);
       z-index: 1;
     }
 
