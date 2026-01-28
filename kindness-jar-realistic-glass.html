@@ -1329,6 +1329,165 @@
         font-size: 0.85rem;
       }
     }
+
+    /* ===== NEON THEME STYLES ===== */
+    body.neon-theme {
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0a0a1a 100%);
+    }
+
+    .neon-glow {
+      text-shadow:
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 20px currentColor,
+        0 0 40px currentColor;
+      animation: neonPulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes neonPulse {
+      0% {
+        text-shadow:
+          0 0 5px currentColor,
+          0 0 10px currentColor,
+          0 0 20px currentColor,
+          0 0 40px currentColor;
+      }
+      100% {
+        text-shadow:
+          0 0 10px currentColor,
+          0 0 20px currentColor,
+          0 0 30px currentColor,
+          0 0 50px currentColor,
+          0 0 60px currentColor;
+      }
+    }
+
+    .neon-subtitle {
+      color: #00f5ff;
+      text-shadow:
+        0 0 5px #00f5ff,
+        0 0 10px #00f5ff,
+        0 0 20px #00f5ff;
+    }
+
+    .neon-border {
+      border: 2px solid #00f5ff;
+      box-shadow:
+        0 0 5px #00f5ff,
+        0 0 10px #00f5ff,
+        inset 0 0 5px #00f5ff,
+        inset 0 0 10px #00f5ff;
+    }
+
+    .neon-button {
+      background: rgba(0, 245, 255, 0.1);
+      border: 2px solid #00f5ff;
+      color: #00f5ff;
+      text-shadow: 0 0 5px #00f5ff;
+      box-shadow:
+        0 0 5px #00f5ff,
+        inset 0 0 5px rgba(0, 245, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .neon-button:hover {
+      background: rgba(0, 245, 255, 0.2);
+      box-shadow:
+        0 0 10px #00f5ff,
+        0 0 20px #00f5ff,
+        inset 0 0 10px rgba(0, 245, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .neon-jar {
+      filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.3));
+    }
+
+    .neon-jar:hover {
+      filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5));
+    }
+
+    /* Neon shelf background */
+    body.neon-theme .shelf-container {
+      background: rgba(20, 20, 40, 0.5);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      box-shadow:
+        0 0 20px rgba(0, 245, 255, 0.1),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Neon shelf wood effect (glowing edge) */
+    body.neon-theme .shelf::after {
+      box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(0, 245, 255, 0.2),
+        inset 0 2px 4px rgba(0, 245, 255, 0.1);
+    }
+
+    /* Neon theme dropdown */
+    body.neon-theme select {
+      background: rgba(20, 20, 40, 0.95);
+      color: #00f5ff;
+      border: 2px solid #00f5ff;
+      text-shadow: 0 0 5px #00f5ff;
+    }
+
+    body.neon-theme select option {
+      background: #16213e;
+      color: #00f5ff;
+    }
+
+    /* Neon theme for modal */
+    body.neon-theme .modal-content {
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+      border: 2px solid #00f5ff;
+      box-shadow:
+        0 0 30px rgba(0, 245, 255, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    body.neon-theme .close-button {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+
+    body.neon-theme .close-button:hover {
+      color: #00f5ff;
+      text-shadow: 0 0 15px #00f5ff;
+    }
+
+    /* Neon theme act card */
+    body.neon-theme .act-card {
+      background: linear-gradient(135deg, rgba(20, 20, 40, 0.9) 0%, rgba(26, 26, 46, 0.9) 100%);
+      border: 2px solid #bd00ff;
+      box-shadow:
+        0 0 20px rgba(189, 0, 255, 0.3),
+        inset 0 0 20px rgba(189, 0, 255, 0.05);
+    }
+
+    body.neon-theme .act-text {
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Neon theme buttons */
+    body.neon-theme button:not(.close-button):not(.theme-selector) {
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(189, 0, 255, 0.2) 100%);
+      border: 2px solid #00f5ff;
+      color: #00f5ff;
+      text-shadow: 0 0 5px #00f5ff;
+      box-shadow:
+        0 0 10px rgba(0, 245, 255, 0.3),
+        inset 0 0 10px rgba(0, 245, 255, 0.1);
+    }
+
+    body.neon-theme button:not(.close-button):not(.theme-selector):hover {
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.3) 0%, rgba(189, 0, 255, 0.3) 100%);
+      box-shadow:
+        0 0 15px rgba(0, 245, 255, 0.5),
+        0 0 25px rgba(189, 0, 255, 0.3),
+        inset 0 0 15px rgba(0, 245, 255, 0.2);
+    }
   </style>
 </head>
 
@@ -2088,6 +2247,33 @@
           completeSuffix: ' ✓'
         },
         transformAct: (act) => act
+      },
+      neon: {
+        name: 'Neon Glow',
+        colors: {
+          background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0a0a1a 100%)',
+          title: 'linear-gradient(135deg, #00f5ff 0%, #ff00ff 100%)',
+          subtitle: '#00f5ff',
+          neonCyan: '#00f5ff',
+          neonPink: '#ff00ff',
+          neonPurple: '#bd00ff',
+          buttonBg: 'rgba(20, 20, 40, 0.95)',
+          buttonHover: 'rgba(30, 30, 50, 1)',
+          selectText: '#00f5ff',
+          textGlow: true
+        },
+        fonts: {
+          title: 'Poppins',
+          subtitle: 'Poppins',
+          body: 'Poppins'
+        },
+        messaging: {
+          title: 'KINDNESS JAR',
+          subtitle: '✨ Light Up the World with Kindness ✨',
+          completePrefix: '⚡ ',
+          completeSuffix: ' ⚡'
+        },
+        transformAct: (act) => act
       }
     };
 
@@ -2147,9 +2333,16 @@
         }
       }, []);
 
-      // Save theme when changed
+      // Save theme when changed and apply neon body class
       useEffect(() => {
         localStorage.setItem('kindnessJar_theme', currentTheme);
+
+        // Apply neon-theme class to body for neon theme
+        if (currentTheme === 'neon') {
+          document.body.classList.add('neon-theme');
+        } else {
+          document.body.classList.remove('neon-theme');
+        }
       }, [currentTheme]);
 
       useEffect(() => {
@@ -2624,8 +2817,15 @@
       return (
         <div className="app-container">
           <div className="app-header">
-            <img src="images/kindness-jar-title.png" alt="Kindness Jar" style={{maxWidth: '600px', width: '90%', height: 'auto', marginBottom: '20px'}} />
-            <p className="app-subtitle">{theme.messaging.subtitle}</p>
+            <img
+              src="images/kindness-jar-title.png"
+              alt="Kindness Jar"
+              className={currentTheme === 'neon' ? 'neon-jar' : ''}
+              style={{maxWidth: '600px', width: '90%', height: 'auto', marginBottom: '20px'}}
+            />
+            <p className={`app-subtitle ${currentTheme === 'neon' ? 'neon-subtitle' : ''}`}>
+              {theme.messaging.subtitle}
+            </p>
 
             {/* Theme Selector */}
             <div style={{marginBottom: '20px'}}>
@@ -2649,7 +2849,8 @@
                 <option value="dude" style={{background: 'white', color: '#1E293B'}}>🤙 Dude Mode</option>
                 <option value="gay" style={{background: 'white', color: '#1E293B'}}>🌈 Fabulous Mode</option>
                 <option value="goth" style={{background: 'white', color: '#1E293B'}}>🦇 Goth Mode</option>
-                <option value="neutral" style={{background: 'white', color: '#1E293B'}}>⚡ Neutral</option>
+                <option value="neutral" style={{background: 'white', color: '#1E293B'}}>⚖️ Neutral</option>
+                <option value="neon" style={{background: 'white', color: '#1E293B'}}>⚡ Neon Glow</option>
               </select>
             </div>
 
