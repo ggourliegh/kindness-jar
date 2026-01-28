@@ -174,74 +174,6 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
         padding: 0 10px;
-        position: relative;
-      }
-
-      /* Add shelves using background images positioned after each row */
-      .jar-grid::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -10px;
-        right: -10px;
-        bottom: 0;
-        pointer-events: none;
-        z-index: -1;
-
-        /* Create multiple shelf backgrounds at calculated positions */
-        /* Each jar is ~140px tall + 50px margin = ~190px per row */
-        background-image:
-          /* Shelf after row 1 (Partner + Mother) */
-          linear-gradient(180deg, #A68968 0%, #9D7E5E 10%, #8B6F4E 50%, #7D6344 90%, #6B533A 100%),
-          /* Shelf after row 2 (Father + Family) */
-          linear-gradient(180deg, #A68968 0%, #9D7E5E 10%, #8B6F4E 50%, #7D6344 90%, #6B533A 100%),
-          /* Shelf after row 3 (Friends - single jar) */
-          linear-gradient(180deg, #A68968 0%, #9D7E5E 10%, #8B6F4E 50%, #7D6344 90%, #6B533A 100%);
-
-        background-size:
-          calc(100% + 20px) 18px,
-          calc(100% + 20px) 18px,
-          calc(100% + 20px) 18px;
-
-        background-position:
-          0 210px,
-          /* After row 1 */
-          0 420px,
-          /* After row 2 */
-          0 630px;
-        /* After row 3 */
-
-        background-repeat: no-repeat;
-
-        box-shadow:
-          0 218px 16px rgba(0, 0, 0, 0.15),
-          0 428px 16px rgba(0, 0, 0, 0.15),
-          0 638px 16px rgba(0, 0, 0, 0.15);
-      }
-
-      /* Second shelf div also needs shelves */
-      .shelf:last-child .jar-grid::before {
-        background-image:
-          /* Shelf after row 1 in second shelf (Colleagues + Strangers) */
-          linear-gradient(180deg, #A68968 0%, #9D7E5E 10%, #8B6F4E 50%, #7D6344 90%, #6B533A 100%),
-          /* Shelf after row 2 in second shelf (Nature + Pets) */
-          linear-gradient(180deg, #A68968 0%, #9D7E5E 10%, #8B6F4E 50%, #7D6344 90%, #6B533A 100%);
-
-        background-size:
-          calc(100% + 20px) 18px,
-          calc(100% + 20px) 18px;
-
-        background-position:
-          0 210px,
-          /* After row 1 */
-          0 420px;
-        /* After row 2 */
-
-        background-repeat: no-repeat;
-
-        box-shadow:
-          0 218px 16px rgba(0, 0, 0, 0.15),
-          0 428px 16px rgba(0, 0, 0, 0.15);
       }
 
       .app-container {
@@ -271,6 +203,44 @@
       .shelf::after,
       .shelf::before {
         display: none;
+      }
+
+      /* Mobile shelf styling - appears between jar rows */
+      .mobile-shelf {
+        grid-column: 1 / -1;
+        /* Span all columns */
+        height: 18px;
+        margin: 10px -10px 30px -10px;
+        /* Extend beyond grid padding */
+        background: linear-gradient(180deg,
+            #A68968 0%,
+            #9D7E5E 10%,
+            #8B6F4E 50%,
+            #7D6344 90%,
+            #6B533A 100%);
+        border-radius: 6px;
+        box-shadow:
+          0 8px 16px rgba(0, 0, 0, 0.3),
+          inset 0 2px 4px rgba(255, 255, 255, 0.2),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+
+      /* Wood grain effect for mobile shelves */
+      .mobile-shelf::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+          repeating-linear-gradient(90deg,
+            transparent,
+            transparent 60px,
+            rgba(0, 0, 0, 0.05) 60px,
+            rgba(0, 0, 0, 0.05) 61px);
+        border-radius: 6px;
       }
 
       /* Add extra margin to jar items to accommodate shelves */
@@ -1819,6 +1789,17 @@
       const [editingJar, setEditingJar] = useState(null);
       const [previewImage, setPreviewImage] = useState(null);
       const [statsTab, setStatsTab] = useState('overview');
+      const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+      // Detect mobile viewport changes
+      useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth <= 640);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
 
       useEffect(() => {
         const saved = localStorage.getItem('kindnessJar_completedActs');
@@ -2197,6 +2178,74 @@
         setPreviewImage(null);
       };
 
+      // Helper function to render a single jar
+      const renderJar = (jar) => (
+        <div
+          key={jar.id}
+          className="jar-item"
+          onClick={() => handleJarClick(jar)}
+        >
+          <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
+            <button
+              className="jar-edit-button"
+              onClick={(e) => handleEditImage(jar, e)}
+              title="Customize icon"
+            >
+              ✏️
+            </button>
+            <div className="jar">
+              <div className="jar-lid"></div>
+              <div
+                className="jar-body"
+                style={{
+                  '--jar-color-light': jar.colorLight,
+                  '--jar-color-main': jar.colorMain,
+                  '--jar-color-dark': jar.colorDark
+                }}
+              >
+                <div className="jar-inner-glow"></div>
+                <div className="jar-edge-highlight"></div>
+                <div className="jar-bottom-curve"></div>
+                <div className={`jar-icon ${customImages[jar.id] ? 'has-custom-image' : ''}`}>
+                  {customImages[jar.id] ? (
+                    <img src={customImages[jar.id]} alt={jar.name} className="custom-image-icon" />
+                  ) : (
+                    jar.icon
+                  )}
+                </div>
+                <div className="jar-label-sticker">
+                  {jar.name}
+                </div>
+              </div>
+              <div className="jar-shadow"></div>
+            </div>
+          </div>
+        </div>
+      );
+
+      // Helper function to render jars with shelves in mobile view
+      const renderJarsWithShelves = (jars) => {
+        if (!isMobile) {
+          // Desktop: render all jars normally
+          return jars.map(jar => renderJar(jar));
+        }
+
+        // Mobile: insert shelf after every 2 jars
+        const elements = [];
+        jars.forEach((jar, index) => {
+          elements.push(renderJar(jar));
+
+          // Add shelf after every 2nd jar (but not after the last jar)
+          if ((index + 1) % 2 === 0 && index < jars.length - 1) {
+            elements.push(
+              <div key={`shelf-${jar.id}`} className="mobile-shelf"></div>
+            );
+          }
+        });
+
+        return elements;
+      };
+
       return (
         <div className="app-container">
           <div className="app-header">
@@ -2215,97 +2264,13 @@
           <div className="shelf-container">
             <div className="shelf">
               <div className="jar-grid">
-                {JARS.slice(0, 5).map(jar => (
-                  <div
-                    key={jar.id}
-                    className="jar-item"
-                    onClick={() => handleJarClick(jar)}
-                  >
-                    <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
-                      <button
-                        className="jar-edit-button"
-                        onClick={(e) => handleEditImage(jar, e)}
-                        title="Customize icon"
-                      >
-                        ✏️
-                      </button>
-                      <div className="jar">
-                        <div className="jar-lid"></div>
-                        <div
-                          className="jar-body"
-                          style={{
-                            '--jar-color-light': jar.colorLight,
-                            '--jar-color-main': jar.colorMain,
-                            '--jar-color-dark': jar.colorDark
-                          }}
-                        >
-                          <div className="jar-inner-glow"></div>
-                          <div className="jar-edge-highlight"></div>
-                          <div className="jar-bottom-curve"></div>
-                          <div className={`jar-icon ${customImages[jar.id] ? 'has-custom-image' : ''}`}>
-                            {customImages[jar.id] ? (
-                              <img src={customImages[jar.id]} alt={jar.name} className="custom-image-icon" />
-                            ) : (
-                              jar.icon
-                            )}
-                          </div>
-                          <div className="jar-label-sticker">
-                            {jar.name}
-                          </div>
-                        </div>
-                        <div className="jar-shadow"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {renderJarsWithShelves(JARS.slice(0, 5))}
               </div>
             </div>
 
             <div className="shelf">
               <div className="jar-grid">
-                {JARS.slice(5, 10).map(jar => (
-                  <div
-                    key={jar.id}
-                    className="jar-item"
-                    onClick={() => handleJarClick(jar)}
-                  >
-                    <div className={`jar-container ${wiggleJar === jar.id ? 'wiggle' : ''}`}>
-                      <button
-                        className="jar-edit-button"
-                        onClick={(e) => handleEditImage(jar, e)}
-                        title="Customize icon"
-                      >
-                        ✏️
-                      </button>
-                      <div className="jar">
-                        <div className="jar-lid"></div>
-                        <div
-                          className="jar-body"
-                          style={{
-                            '--jar-color-light': jar.colorLight,
-                            '--jar-color-main': jar.colorMain,
-                            '--jar-color-dark': jar.colorDark
-                          }}
-                        >
-                          <div className="jar-inner-glow"></div>
-                          <div className="jar-edge-highlight"></div>
-                          <div className="jar-bottom-curve"></div>
-                          <div className={`jar-icon ${customImages[jar.id] ? 'has-custom-image' : ''}`}>
-                            {customImages[jar.id] ? (
-                              <img src={customImages[jar.id]} alt={jar.name} className="custom-image-icon" />
-                            ) : (
-                              jar.icon
-                            )}
-                          </div>
-                          <div className="jar-label-sticker">
-                            {jar.name}
-                          </div>
-                        </div>
-                        <div className="jar-shadow"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {renderJarsWithShelves(JARS.slice(5, 10))}
               </div>
             </div>
           </div>
