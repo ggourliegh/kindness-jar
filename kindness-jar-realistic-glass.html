@@ -1820,35 +1820,92 @@
           buttonBg: 'rgba(255, 255, 255, 0.9)',
           buttonHover: 'white'
         },
+        fonts: {
+          title: 'Caveat',
+          subtitle: 'Poppins',
+          body: 'Poppins'
+        },
         messaging: {
           title: 'KINDNESS JAR!',
           subtitle: 'Spread Love & Joy Every Single Day!',
           completePrefix: '',
           completeSuffix: ' ✨'
-        }
+        },
+        transformAct: (act) => act
       },
       dude: {
         name: 'Dude Mode',
         colors: {
-          background: 'linear-gradient(135deg, #1E293B 0%, #334155 50%, #475569 100%)',
-          title: 'linear-gradient(135deg, #F97316 0%, #EF4444 100%)',
-          subtitle: '#94A3B8',
-          buttonBg: 'rgba(30, 41, 59, 0.8)',
-          buttonHover: 'rgba(30, 41, 59, 0.95)'
+          background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%)',
+          title: 'linear-gradient(135deg, #FB923C 0%, #F97316 100%)',
+          subtitle: '#CBD5E1',
+          buttonBg: 'rgba(51, 65, 85, 0.9)',
+          buttonHover: 'rgba(51, 65, 85, 1)'
+        },
+        fonts: {
+          title: 'Impact, Arial Black',
+          subtitle: 'Arial',
+          body: 'Arial'
         },
         messaging: {
-          title: 'BRO CODE JAR',
-          subtitle: 'Level Up Your Kindness Game, Dude!',
-          completePrefix: 'Nice one, bro! ',
-          completeSuffix: ' 🤙'
+          title: '💪 BRO CODE 💪',
+          subtitle: 'Real Dudes Do Kind Stuff. Level Up!',
+          completePrefix: 'NICE ONE BRO! ',
+          completeSuffix: ' 🔥🤙'
         },
-        altGreetings: [
-          "Yo dude, you done some good for {target} today?",
-          "Bro, when's the last time you showed {target} some love?",
-          "Hey man, {target} could use your kindness today!",
-          "Dude, step up and do something awesome for {target}!",
-          "Real men show kindness - what you got for {target}?"
-        ]
+        transformAct: (act) => {
+          // Add cheeky dude language
+          const dudeStarters = [
+            "Dude, ",
+            "Bro, ",
+            "Hey man, ",
+            "Yo, ",
+            "Listen up bro: "
+          ];
+          const starter = dudeStarters[Math.floor(Math.random() * dudeStarters.length)];
+          return starter + act.toLowerCase();
+        }
+      },
+      gay: {
+        name: 'Fabulous Mode',
+        colors: {
+          background: 'linear-gradient(135deg, #FF0080 0%, #7928CA 25%, #4D7CFF 50%, #00DFD8 75%, #FF0080 100%)',
+          title: 'linear-gradient(135deg, #FFD700 0%, #FF1493 50%, #9370DB 100%)',
+          subtitle: '#FFFFFF',
+          buttonBg: 'rgba(255, 255, 255, 0.95)',
+          buttonHover: 'rgba(255, 255, 255, 1)'
+        },
+        fonts: {
+          title: 'Pacifico',
+          subtitle: 'Poppins',
+          body: 'Poppins'
+        },
+        messaging: {
+          title: '✨ YAAS QUEEN! ✨',
+          subtitle: 'Serving Kindness Realness, Hunty!',
+          completePrefix: 'SLAY! ',
+          completeSuffix: ' 💅✨🌈'
+        },
+        transformAct: (act) => {
+          // Add fabulous gay language
+          const fabulousStarters = [
+            "Hunty, ",
+            "Yaaas queen! ",
+            "Slay: ",
+            "Fierce! ",
+            "Werk it: "
+          ];
+          const fabulousEnders = [
+            ", and make it FIERCE!",
+            " - serving LOOKS!",
+            " like the icon you are!",
+            " - absolutely STUNNING!",
+            ", babe!"
+          ];
+          const starter = fabulousStarters[Math.floor(Math.random() * fabulousStarters.length)];
+          const ender = fabulousEnders[Math.floor(Math.random() * fabulousEnders.length)];
+          return starter + act.toLowerCase() + ender;
+        }
       },
       neutral: {
         name: 'Neutral',
@@ -1859,12 +1916,18 @@
           buttonBg: 'rgba(255, 255, 255, 0.95)',
           buttonHover: 'white'
         },
+        fonts: {
+          title: 'Poppins',
+          subtitle: 'Poppins',
+          body: 'Poppins'
+        },
         messaging: {
           title: 'KINDNESS CHALLENGE',
           subtitle: 'Make Every Day Count with Small Acts',
           completePrefix: 'Well done! ',
           completeSuffix: ' ✓'
-        }
+        },
+        transformAct: (act) => act
       }
     };
 
@@ -2404,8 +2467,8 @@
       return (
         <div className="app-container">
           <div className="app-header">
-            <h1 className="app-title" style={{background: theme.colors.title, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'}}>{theme.messaging.title}</h1>
-            <p className="app-subtitle" style={{color: theme.colors.subtitle}}>{theme.messaging.subtitle}</p>
+            <h1 className="app-title" style={{background: theme.colors.title, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontFamily: theme.fonts.title}}>{theme.messaging.title}</h1>
+            <p className="app-subtitle" style={{color: theme.colors.subtitle, fontFamily: theme.fonts.subtitle}}>{theme.messaging.subtitle}</p>
 
             {/* Theme Selector */}
             <div style={{marginBottom: '20px'}}>
@@ -2427,6 +2490,7 @@
               >
                 <option value="classic">🌸 Classic</option>
                 <option value="dude">🤙 Dude Mode</option>
+                <option value="gay">🌈 Fabulous Mode</option>
                 <option value="neutral">⚡ Neutral</option>
               </select>
             </div>
@@ -2484,7 +2548,7 @@
                 <div className="note-icon">{selectedJar.icon}</div>
                 <div className="note-category">{selectedJar.name}</div>
                 <div className="note-title">Your Act of Kindness</div>
-                <div className="note-text">{currentAct}</div>
+                <div className="note-text">{theme.transformAct(currentAct)}</div>
                 <div className="note-buttons">
                   <button className="note-button primary" onClick={handleComplete}>
                     ✓ I Did It!
