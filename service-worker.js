@@ -1,9 +1,13 @@
 // Service Worker for Daily Kindness PWA
-const CACHE_NAME = 'daily-kindness-v1';
+const CACHE_NAME = 'daily-kindness-v2';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/kindness-jar-realistic-glass.html',
   '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+  '/icons/apple-touch-icon.png',
   'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Quicksand:wght@400;500;600;700&display=swap',
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/react@18/umd/react.production.min.js',
@@ -89,7 +93,7 @@ async function syncKindnessData() {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'Time for your daily act of kindness! ✨',
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%23FF6B6B' rx='48'/><text x='96' y='140' font-size='120' text-anchor='middle' fill='white'>💕</text></svg>",
+    icon: '/icons/icon-192x192.png',
     badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%23FF6B6B'/></svg>",
     vibrate: [200, 100, 200],
     tag: 'daily-kindness',

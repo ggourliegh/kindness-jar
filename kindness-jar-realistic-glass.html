@@ -12,6 +12,26 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@700&family=Pacifico&display=swap"
     rel="stylesheet">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#FF6B6B">
+
+  <!-- iOS Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Daily Kindness">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png">
+
+  <!-- Meta description for SEO and share cards -->
+  <meta name="description" content="Daily acts of kindness to make the world a better place. Choose a category, get a suggestion, and spread positivity!">
+
   <style>
     * {
       margin: 0;
@@ -2698,6 +2718,21 @@
     }
 
     ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('✅ ServiceWorker registered:', registration);
+          })
+          .catch(error => {
+            console.log('❌ ServiceWorker registration failed:', error);
+          });
+      });
+    }
   </script>
 </body>
 
