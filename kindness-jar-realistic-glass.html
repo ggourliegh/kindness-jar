@@ -2150,9 +2150,6 @@
       // Save theme when changed
       useEffect(() => {
         localStorage.setItem('kindnessJar_theme', currentTheme);
-        // Apply theme colors to body
-        const theme = THEMES[currentTheme];
-        document.body.style.background = theme.colors.background;
       }, [currentTheme]);
 
       useEffect(() => {
@@ -2627,7 +2624,7 @@
       return (
         <div className="app-container">
           <div className="app-header">
-            <h1 className="app-title">{theme.messaging.title}</h1>
+            <img src="images/kindness-jar-title.png" alt="Kindness Jar" style={{maxWidth: '600px', width: '90%', height: 'auto', marginBottom: '20px'}} />
             <p className="app-subtitle">{theme.messaging.subtitle}</p>
 
             {/* Theme Selector */}

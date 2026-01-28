@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>What Changed? Visual Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    .before {
+      border: 3px solid #ff6b6b;
+    }
+    .after {
+      border: 3px solid #51cf66;
+    }
+    .tag {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .before .tag {
+      background: #ff6b6b;
+      color: white;
+    }
+    .after .tag {
+      background: #51cf66;
+      color: white;
+    }
+    ul {
+      line-height: 2;
+    }
+    .highlight {
+      background: #fff3bf;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+    .code {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-family: monospace;
+      border-left: 4px solid #667eea;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 What Changed? Visual Guide</h1>
+
+  <div class="comparison">
+    <!-- BEFORE -->
+    <div class="section before">
+      <span class="tag">❌ BEFORE (Main Branch)</span>
+      <h2>1. Header</h2>
+      <ul>
+        <li><span class="highlight">NO background</span> on header</li>
+        <li>Title <span class="highlight">invisible</span> on dark themes</li>
+        <li>Text blends into background gradients</li>
+      </ul>
+
+      <h2>2. Dude Mode Slang</h2>
+      <div class="code">
+        Click Family jar 5 times:<br><br>
+        "Mate, send a thoughtful message, legend!"<br>
+        "Mate, cook a special meal, legend!"<br>
+        "Mate, help with household chores, legend!"<br>
+        "Mate, plan a family outing, legend!"<br>
+        "Mate, give someone a hug, legend!"<br><br>
+        <span style="color: #ff6b6b;">⚠️ REPETITIVE - Always same format!</span>
+      </div>
+
+      <h2>3. Jars</h2>
+      <ul>
+        <li>Dimmer highlights</li>
+        <li>Lighter shadows</li>
+        <li>Less realistic glass effect</li>
+      </ul>
+
+      <h2>4. Icons</h2>
+      <ul>
+        <li>Only 4 playful bee icons</li>
+        <li>No modern professional options</li>
+      </ul>
+    </div>
+
+    <!-- AFTER -->
+    <div class="section after">
+      <span class="tag">✅ AFTER (Feature Branch)</span>
+      <h2>1. Header</h2>
+      <ul>
+        <li><span class="highlight">Translucent white background</span> with blur</li>
+        <li>Title <span class="highlight">visible</span> on ALL themes</li>
+        <li>Glassmorphism effect</li>
+        <li>Rounded corners, subtle shadow</li>
+      </ul>
+
+      <h2>2. Dude Mode Slang (CONTEXTUAL)</h2>
+      <div class="code">
+        Click Family jar 5 times:<br><br>
+        "Listen up: send a thoughtful message. Your whanau needs you, legend!"<br>
+        "Chur bro, cook a special meal - that's what family's for!"<br>
+        "Ay bro: help with household chores. Look after your mob, mate!"<br>
+        "Oi mate, plan a family outing - family first, bro!"<br>
+        "Mate, give someone a hug - show your lot some love!"<br><br>
+        <span style="color: #51cf66;">✨ VARIED - Different every time!</span><br>
+        <span style="color: #51cf66;">🧠 SMART - Context-aware slang!</span>
+      </div>
+
+      <h2>3. Jars</h2>
+      <ul>
+        <li><span class="highlight">95% brighter</span> left-side highlight</li>
+        <li><span class="highlight">45% darker</span> shadow underneath</li>
+        <li>Photo-realistic glass transparency</li>
+        <li>Multi-layer edge effects</li>
+        <li>Better metallic lid gradient</li>
+      </ul>
+
+      <h2>4. Icons</h2>
+      <ul>
+        <li>8 bee icons total (4 playful + 4 modern)</li>
+        <li>Professional app icon designs</li>
+        <li>iOS-style glossy option</li>
+        <li>Material Design option</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="max-width: 1400px; margin: 40px auto; text-align: center;">
+    <h2 style="color: #667eea;">🎯 How to See the Changes</h2>
+    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: left;">
+      <h3>Test #1: Contextual Slang (MOST IMPRESSIVE)</h3>
+      <ol style="line-height: 2;">
+        <li>Go to app: <code>localhost:8080/kindness-jar-realistic-glass.html</code></li>
+        <li>Select <strong>🤙 Dude Mode</strong></li>
+        <li>Click <strong>Family jar</strong> 5 times</li>
+        <li>Notice how each message is DIFFERENT and contextually appropriate!</li>
+        <li>Try <strong>Colleagues jar</strong> - get work-specific slang</li>
+        <li>Try <strong>Friends jar</strong> - get friendship-specific slang</li>
+      </ol>
+
+      <h3>Test #2: Header Visibility</h3>
+      <ol style="line-height: 2;">
+        <li>Switch to <strong>🦇 Goth Mode</strong> (black background)</li>
+        <li>Title should still be readable (before it disappeared!)</li>
+        <li>Switch to all themes - header always visible now</li>
+      </ol>
+
+      <h3>Test #3: Jar Realism</h3>
+      <ol style="line-height: 2;">
+        <li>Look at the <strong>left side of any jar</strong></li>
+        <li>Notice the <strong>bright white glossy highlight</strong></li>
+        <li>Look <strong>underneath jars</strong> - darker, softer shadow</li>
+        <li>Notice the <strong>glass transparency</strong> effect</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>
