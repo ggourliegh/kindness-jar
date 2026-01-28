@@ -56,7 +56,12 @@
 
     .app-header {
       text-align: center;
-      padding: 0 0 40px;
+      padding: 30px 20px 40px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .app-title {
@@ -1818,7 +1823,8 @@
           title: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
           subtitle: '#64748B',
           buttonBg: 'rgba(255, 255, 255, 0.9)',
-          buttonHover: 'white'
+          buttonHover: 'white',
+          selectText: '#1E293B'
         },
         fonts: {
           title: 'Caveat',
@@ -1839,8 +1845,9 @@
           background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%)',
           title: 'linear-gradient(135deg, #FB923C 0%, #F97316 100%)',
           subtitle: '#CBD5E1',
-          buttonBg: 'rgba(51, 65, 85, 0.9)',
-          buttonHover: 'rgba(51, 65, 85, 1)'
+          buttonBg: 'rgba(255, 255, 255, 0.95)',
+          buttonHover: 'rgba(255, 255, 255, 1)',
+          selectText: '#1E293B'
         },
         fonts: {
           title: 'Impact, Arial Black',
@@ -1848,22 +1855,33 @@
           body: 'Arial'
         },
         messaging: {
-          title: '💪 BRO CODE 💪',
-          subtitle: 'Real Dudes Do Kind Stuff. Level Up!',
-          completePrefix: 'NICE ONE BRO! ',
+          title: '🤙 BRO CODE 🤙',
+          subtitle: 'Real Kiwi Blokes Do Kind Stuff. Choice!',
+          completePrefix: 'SWEET AS BRO! ',
           completeSuffix: ' 🔥🤙'
         },
         transformAct: (act) => {
-          // Add cheeky dude language
-          const dudeStarters = [
-            "Dude, ",
+          // Add Kiwi male slang
+          const kiwiStarters = [
+            "Mate, ",
             "Bro, ",
-            "Hey man, ",
-            "Yo, ",
-            "Listen up bro: "
+            "Chur bro: ",
+            "Oi mate, ",
+            "Listen up legend: ",
+            "Ay bro, ",
+            "Sweet as - "
           ];
-          const starter = dudeStarters[Math.floor(Math.random() * dudeStarters.length)];
-          return starter + act.toLowerCase();
+          const kiwiEnders = [
+            ", choice!",
+            ", legend!",
+            " - sweet as!",
+            ", mate!",
+            " - she'll be right!",
+            ", chur!"
+          ];
+          const starter = kiwiStarters[Math.floor(Math.random() * kiwiStarters.length)];
+          const ender = kiwiEnders[Math.floor(Math.random() * kiwiEnders.length)];
+          return starter + act.toLowerCase() + ender;
         }
       },
       gay: {
@@ -1873,7 +1891,8 @@
           title: 'linear-gradient(135deg, #FFD700 0%, #FF1493 50%, #9370DB 100%)',
           subtitle: '#FFFFFF',
           buttonBg: 'rgba(255, 255, 255, 0.95)',
-          buttonHover: 'rgba(255, 255, 255, 1)'
+          buttonHover: 'rgba(255, 255, 255, 1)',
+          selectText: '#1E293B'
         },
         fonts: {
           title: 'Pacifico',
@@ -1907,6 +1926,50 @@
           return starter + act.toLowerCase() + ender;
         }
       },
+      goth: {
+        name: 'Goth Mode',
+        colors: {
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #2d1b2e 50%, #1a0a1a 75%, #0a0a0a 100%)',
+          title: 'linear-gradient(135deg, #8B0000 0%, #4B0082 50%, #000000 100%)',
+          subtitle: '#9B9B9B',
+          buttonBg: 'rgba(30, 30, 30, 0.95)',
+          buttonHover: 'rgba(50, 30, 50, 1)',
+          selectText: '#E0E0E0'
+        },
+        fonts: {
+          title: 'Georgia, serif',
+          subtitle: 'Times New Roman, serif',
+          body: 'Georgia, serif'
+        },
+        messaging: {
+          title: '🦇 DARKNESS & KINDNESS 🦇',
+          subtitle: 'Embrace the Light Within the Shadows...',
+          completePrefix: 'Well done, dark soul... ',
+          completeSuffix: ' 🖤⚰️'
+        },
+        transformAct: (act) => {
+          // Add gothic/dark language
+          const gothStarters = [
+            "In the darkness, ",
+            "From the shadows: ",
+            "Hear this, creature of the night: ",
+            "Dark one, ",
+            "Through the veil: ",
+            "Heed this call: "
+          ];
+          const gothEnders = [
+            "...and find light in the void.",
+            " - even darkness can be kind.",
+            "...let kindness be your curse.",
+            " - beauty blooms in shadows.",
+            "...darkness embraces all.",
+            " - a gift from the abyss."
+          ];
+          const starter = gothStarters[Math.floor(Math.random() * gothStarters.length)];
+          const ender = gothEnders[Math.floor(Math.random() * gothEnders.length)];
+          return starter + act.toLowerCase() + ender;
+        }
+      },
       neutral: {
         name: 'Neutral',
         colors: {
@@ -1914,7 +1977,8 @@
           title: 'linear-gradient(135deg, #0F172A 0%, #334155 100%)',
           subtitle: '#475569',
           buttonBg: 'rgba(255, 255, 255, 0.95)',
-          buttonHover: 'white'
+          buttonHover: 'white',
+          selectText: '#1E293B'
         },
         fonts: {
           title: 'Poppins',
@@ -2480,7 +2544,7 @@
                   borderRadius: '25px',
                   border: '2px solid rgba(255,255,255,0.3)',
                   background: theme.colors.buttonBg,
-                  color: '#4A5568',
+                  color: theme.colors.selectText,
                   fontSize: '1rem',
                   fontWeight: '600',
                   cursor: 'pointer',
@@ -2488,10 +2552,11 @@
                   fontFamily: 'Poppins, sans-serif'
                 }}
               >
-                <option value="classic">🌸 Classic</option>
-                <option value="dude">🤙 Dude Mode</option>
-                <option value="gay">🌈 Fabulous Mode</option>
-                <option value="neutral">⚡ Neutral</option>
+                <option value="classic" style={{background: 'white', color: '#1E293B'}}>🌸 Classic</option>
+                <option value="dude" style={{background: 'white', color: '#1E293B'}}>🤙 Dude Mode</option>
+                <option value="gay" style={{background: 'white', color: '#1E293B'}}>🌈 Fabulous Mode</option>
+                <option value="goth" style={{background: 'white', color: '#1E293B'}}>🦇 Goth Mode</option>
+                <option value="neutral" style={{background: 'white', color: '#1E293B'}}>⚡ Neutral</option>
               </select>
             </div>
 
