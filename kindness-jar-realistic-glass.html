@@ -2262,17 +2262,29 @@
           </div>
 
           <div className="shelf-container">
-            <div className="shelf">
-              <div className="jar-grid">
-                {renderJarsWithShelves(JARS.slice(0, 5))}
+            {isMobile ? (
+              // Mobile: Single grid with all jars and shelves between rows
+              <div className="shelf">
+                <div className="jar-grid">
+                  {renderJarsWithShelves(JARS)}
+                </div>
               </div>
-            </div>
+            ) : (
+              // Desktop: Two shelves with 5 jars each
+              <>
+                <div className="shelf">
+                  <div className="jar-grid">
+                    {renderJarsWithShelves(JARS.slice(0, 5))}
+                  </div>
+                </div>
 
-            <div className="shelf">
-              <div className="jar-grid">
-                {renderJarsWithShelves(JARS.slice(5, 10))}
-              </div>
-            </div>
+                <div className="shelf">
+                  <div className="jar-grid">
+                    {renderJarsWithShelves(JARS.slice(5, 10))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {selectedJar && currentAct && (
