@@ -116,6 +116,21 @@
       color: white;
     }
 
+    .header-button.install {
+      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      color: white;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+      }
+    }
+
     .shelf-container {
       background: rgba(160, 130, 109, 0.25);
       backdrop-filter: blur(10px);
@@ -1810,6 +1825,8 @@
       const [previewImage, setPreviewImage] = useState(null);
       const [statsTab, setStatsTab] = useState('overview');
       const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+      const [deferredPrompt, setDeferredPrompt] = useState(null);
+      const [showInstallButton, setShowInstallButton] = useState(false);
 
       // Detect mobile viewport changes
       useEffect(() => {
@@ -1819,6 +1836,24 @@
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+      }, []);
+
+      // Listen for PWA install prompt
+      useEffect(() => {
+        const handleBeforeInstallPrompt = (e) => {
+          // Prevent the mini-infobar from appearing on mobile
+          e.preventDefault();
+          // Store the event so it can be triggered later
+          setDeferredPrompt(e);
+          // Show our custom install button
+          setShowInstallButton(true);
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+        return () => {
+          window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        };
       }, []);
 
       useEffect(() => {
@@ -1870,6 +1905,28 @@
           setCurrentAct(randomAct);
           setIsAIGenerated(false);
         }, 300);
+      };
+
+      const handleInstallClick = async () => {
+        if (!deferredPrompt) {
+          return;
+        }
+
+        // Show the install prompt
+        deferredPrompt.prompt();
+
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+
+        // Clear the deferred prompt
+        setDeferredPrompt(null);
+        setShowInstallButton(false);
       };
 
       const handleGenerateAI = async () => {
@@ -2272,6 +2329,11 @@
             <h1 className="app-title">KINDNESS JAR!</h1>
             <p className="app-subtitle">Spread Love & Joy Every Single Day!</p>
             <div className="button-row">
+              {showInstallButton && (
+                <button className="header-button install" onClick={handleInstallClick}>
+                  📱 Install App
+                </button>
+              )}
               <button className="header-button" onClick={() => setShowStats(true)}>
                 📊 My Impact
               </button>
