@@ -73,6 +73,17 @@
       filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
     }
 
+    .app-title-image {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 8px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
     .app-subtitle {
       font-family: 'Caveat', cursive;
       font-size: 1.6rem;
@@ -219,6 +230,10 @@
         font-size: 2.2rem;
         letter-spacing: 1px;
         margin-bottom: 6px;
+      }
+
+      .app-title-image {
+        max-width: 300px;
       }
 
       .app-subtitle {
@@ -2326,7 +2341,7 @@
       return (
         <div className="app-container">
           <div className="app-header">
-            <h1 className="app-title">KINDNESS JAR!</h1>
+            <img src="images/kindness-jar-title.png" alt="Kindness Jar" className="app-title-image" />
             <p className="app-subtitle">Spread Love & Joy Every Single Day!</p>
             <div className="button-row">
               {showInstallButton && (
