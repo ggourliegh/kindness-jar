@@ -2109,8 +2109,6 @@
       const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
       const [deferredPrompt, setDeferredPrompt] = useState(null);
       const [showInstallButton, setShowInstallButton] = useState(false);
-      const [currentTheme, setCurrentTheme] = useState('classic');
-
       // Detect mobile viewport changes
       useEffect(() => {
         const handleResize = () => {
@@ -2619,39 +2617,11 @@
         return elements;
       };
 
-      const theme = THEMES[currentTheme];
-
       return (
         <div className="app-container">
           <div className="app-header">
             <img src="images/kindness-jar-title.png" alt="Kindness Jar" style={{maxWidth: '600px', width: '90%', height: 'auto', marginBottom: '20px'}} />
-            <p className="app-subtitle">{theme.messaging.subtitle}</p>
-
-            {/* Theme Selector */}
-            <div style={{marginBottom: '20px'}}>
-              <select
-                value={currentTheme}
-                onChange={(e) => setCurrentTheme(e.target.value)}
-                style={{
-                  padding: '10px 20px',
-                  borderRadius: '25px',
-                  border: '2px solid rgba(255,255,255,0.3)',
-                  background: theme.colors.buttonBg,
-                  color: theme.colors.selectText,
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  fontFamily: 'Poppins, sans-serif'
-                }}
-              >
-                <option value="classic" style={{background: 'white', color: '#1E293B'}}>🌸 Classic</option>
-                <option value="dude" style={{background: 'white', color: '#1E293B'}}>🤙 Dude Mode</option>
-                <option value="gay" style={{background: 'white', color: '#1E293B'}}>🌈 Fabulous Mode</option>
-                <option value="goth" style={{background: 'white', color: '#1E293B'}}>🦇 Goth Mode</option>
-                <option value="neutral" style={{background: 'white', color: '#1E293B'}}>⚡ Neutral</option>
-              </select>
-            </div>
+            <p className="app-subtitle">Spread Love & Joy Every Single Day!</p>
 
             <div className="button-row">
               {showInstallButton && (
