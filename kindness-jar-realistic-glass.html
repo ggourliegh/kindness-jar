@@ -2137,14 +2137,6 @@
         };
       }, []);
 
-      // Load saved theme
-      useEffect(() => {
-        const savedTheme = localStorage.getItem('kindnessJar_theme');
-        if (savedTheme && THEMES[savedTheme]) {
-          setCurrentTheme(savedTheme);
-        }
-      }, []);
-
       useEffect(() => {
         const saved = localStorage.getItem('kindnessJar_completedActs');
         if (saved) {
