@@ -2009,9 +2009,7 @@
         try {
           // Configuration - Update these values for your deployment
           const STRIPE_PUBLISHABLE_KEY = 'pk_live_51StH5DPk6Kx4nhlg0h7YzsInIPULprlSHOlbVYZ5tqzXK14y9c6OAvQVdfYiUKy0tthpJbmYH912KOpHY84wDUgY00wzxNvxVA'; // Your Stripe publishable key
-          const BACKEND_URL = window.location.hostname === 'localhost'
-            ? 'http://localhost:3000'
-            : 'https://kindness-jar.onrender.com'; // Production backend URL
+          const BACKEND_URL = 'https://kindness-jar.onrender.com'; // Always use production backend
 
           // Initialize Stripe
           const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
