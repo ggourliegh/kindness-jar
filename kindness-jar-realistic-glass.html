@@ -2145,11 +2145,6 @@
         }
       }, []);
 
-      // Save theme when changed
-      useEffect(() => {
-        localStorage.setItem('kindnessJar_theme', currentTheme);
-      }, [currentTheme]);
-
       useEffect(() => {
         const saved = localStorage.getItem('kindnessJar_completedActs');
         if (saved) {
